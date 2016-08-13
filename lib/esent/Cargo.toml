@@ -1,12 +1,12 @@
 [package]
 name = "esent-sys"
-version = "0.0.1"
-authors = ["Peter Atashian <retep998@gmail.com>"]
+version = "0.1.0"
+authors = ["Peter Atashian <retep998@gmail.com>", "William R. Fraser <wfraser@codewise.org>"]
 description = "Contains function definitions for the Windows API library esent. See winapi for types and constants."
 documentation = "https://retep998.github.io/doc/esent/"
 repository = "https://github.com/retep998/winapi-rs"
 readme = "README.md"
-keywords = ["windows", "ffi", "win32"]
+keywords = ["windows", "ffi", "win32", "esedb"]
 license = "MIT"
 build = "build.rs"
 [lib]
