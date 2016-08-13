@@ -1,6 +1,7 @@
 // Copyright (c) William R. Fraser
 // Licensed under the MIT License <LICENSE.md>
 //! Extensible Storage Engine structures and types.
+
 pub type JET_API_PTR = usize;
 pub type JET_CBTYP = ::ULONG;
 pub type JET_COLTYP = ::ULONG;
@@ -59,6 +60,14 @@ STRUCT!{struct JET_CONDITIONALCOLUMN_W {
     cbStruct: ::ULONG,
     szColumnName: ::PWSTR,
     grbit: JET_GRBIT,
+}}
+STRUCT!{nodebug struct JET_ERRINFOBASIC_W{
+    cbStruct: ::ULONG,
+    errValue: JET_ERR,
+    errcatMostSpecific: JET_ERRCAT,
+    rgCategoricalHeirarchy: [u8; 8],
+    lSourceLine: ::ULONG,
+    rgszSourceFile: [::WCHAR; 64],
 }}
 STRUCT!{struct JET_INDEX_COLUMN {
     columnid: JET_COLUMNID,
@@ -311,6 +320,7 @@ STRUCT!{struct JET_UNICODEINDEX2 {
     dwMapFlags: ::ULONG,
 }}
 pub const JET_MAX_COMPUTERNAME_LENGTH: usize = 15;
+pub const JET_ErrorInfoSpecificErr: ::ULONG = 1;
 pub const JET_relopEquals: JET_RELOP = 0;
 pub const JET_relopPrefixEquals: JET_RELOP = 1;
 pub const JET_relopNotEquals: JET_RELOP = 2;
@@ -374,7 +384,8 @@ pub const JET_coltypUnsignedLong: JET_COLTYP = 14;
 pub const JET_coltypLongLong: JET_COLTYP = 15;
 pub const JET_coltypGUID: JET_COLTYP = 16;
 pub const JET_coltypUnsignedShort: JET_COLTYP = 17;
-pub const JET_coltypMax: JET_COLTYP = 18;
+pub const JET_coltypUnsignedLongLong: JET_COLTYP = 18;
+pub const JET_coltypMax: JET_COLTYP = 19;
 pub const JET_objtypNil: JET_OBJTYP = 0;
 pub const JET_objtypTable: JET_OBJTYP = 1;
 pub const JET_snpRepair: JET_SNP = 2;
@@ -523,3 +534,4 @@ pub const JET_paramEnableShinkDatabase: ParamId = 184;
 pub const JET_paramProcessFriendlyName: ParamId = 186;
 pub const JET_paramDurableCommitCallback: ParamId = 187;
 pub const JET_paramEnableSqm: ParamId = 188;
+pub const JET_paramConfigStoreSpec: ParamId = 189;

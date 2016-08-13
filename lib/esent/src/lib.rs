@@ -2,6 +2,7 @@
 // Licensed under the MIT License <LICENSE.md>
 //! FFI bindings to esent.
 #![no_std]
+#![allow(non_upper_case_globals)]
 extern crate winapi;
 use winapi::*;
 extern "system" {
@@ -240,7 +241,13 @@ extern "system" {
     // JetGetCursorInfo
     // JetGetDatabaseFileInfo
     // JetGetDetabaseInfo
-    // JetGetErrorInfoW
+    pub fn JetGetErrorInfoW(
+        pvContext: *const PVOID,
+        pvResult: PVOID,
+        cbMax: ULONG,
+        InfoLevel: ULONG,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
     // JetGetIndexInfo
     // JetGetInstanceInfo
     // JetGetInstanceMiscInfo
