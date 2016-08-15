@@ -786,9 +786,91 @@ pub const JET_bitRetrieveHintTableScanBackward: JET_GRBIT = 		0x00000020;	//	By 
 pub const JET_bitRetrieveHintReserve2: JET_GRBIT = 					0x00000040;	//	Reserved and ignored
 pub const JET_bitRetrieveHintReserve3: JET_GRBIT = 					0x00000080;	//	Reserved and ignored
 //	Update
-//#define JET_bitUpdateReserved						0x00000000	//	TBD.
+//pub const JET_bitUpdateReserved: JET_GRBIT = 						0x00000000;	//	TBD.
 //	Delete / .grbitDelete
 pub const JET_bitDeleteHintTableSequential: JET_GRBIT = 			0x00000100;	//	This means that the application expects this table to be cleaned up in-order sequentially (from lowest key to highest key)
+
+/* Options for JetPrepareUpdate */
+/*
+#define JET_prepInsert						0
+#define JET_prepReplace 					2
+#define JET_prepCancel						3
+#define JET_prepReplaceNoLock				4
+#define JET_prepInsertCopy					5
+#define JET_prepInsertCopyDeleteOriginal	7	//	used for updating a record in the primary key; avoids the delete/insert process and updates autoinc
+#define JET_prepInsertCopyReplaceOriginal	9	//	used for updating a record in the primary key; avoids the delete/insert process and keeps autoinc
+*/
+
+	//	Flags for JetUpdate
+pub const JET_bitUpdateCheckESE97Compatibility: JET_GRBIT = 	0x00000001;	//	check whether record fits if represented in ESE97 database format
+
+	/* Flags for JetEscrowUpdate */
+pub const JET_bitEscrowNoRollback: JET_GRBIT = 				0x0001;
+
+	/* Flags for JetRetrieveColumn */
+pub const JET_bitRetrieveCopy: JET_GRBIT = 					0x00000001;
+pub const JET_bitRetrieveFromIndex: JET_GRBIT = 			0x00000002;
+pub const JET_bitRetrieveFromPrimaryBookmark: JET_GRBIT = 	0x00000004;
+pub const JET_bitRetrieveTag: JET_GRBIT = 					0x00000008;
+pub const JET_bitRetrieveNull: JET_GRBIT = 					0x00000010;	/*	for columnid 0 only */
+pub const JET_bitRetrieveIgnoreDefault: JET_GRBIT = 		0x00000020;	/*	for columnid 0 only */
+pub const JET_bitRetrieveLongId: JET_GRBIT = 				0x00000040;
+pub const JET_bitRetrieveLongValueRefCount: JET_GRBIT = 	0x00000080;	/*  for testing use only */
+pub const JET_bitRetrieveTuple: JET_GRBIT = 				0x00000800; /* retrieve tuple fragment from index */
+
+	/* Flags for JET_INDEX_COLUMN */
+pub const JET_bitZeroLength: JET_GRBIT = 					0x00000001;
+
+/* Flags for JetEnumerateColumns */
+pub const JET_bitEnumerateCopy: JET_GRBIT = 						JET_bitRetrieveCopy;
+pub const JET_bitEnumerateIgnoreDefault: JET_GRBIT = 				JET_bitRetrieveIgnoreDefault;
+pub const JET_bitEnumeratePresenceOnly: JET_GRBIT = 				0x00020000;
+pub const JET_bitEnumerateTaggedOnly: JET_GRBIT = 					0x00040000;
+pub const JET_bitEnumerateCompressOutput: JET_GRBIT = 				0x00080000;
+// Available on Server 2003 SP1
+pub const JET_bitEnumerateIgnoreUserDefinedDefault: JET_GRBIT = 	0x00100000;
+pub const JET_bitEnumerateInRecordOnly: JET_GRBIT = 				0x00200000;
+
+/* Flags for JetGetRecordSize */
+pub const JET_bitRecordSizeInCopyBuffer: JET_GRBIT = 			0x00000001;	//	use record in copy buffer
+pub const JET_bitRecordSizeRunningTotal: JET_GRBIT = 			0x00000002;	//	increment totals in output buffer instead of setting them
+pub const JET_bitRecordSizeLocal: JET_GRBIT = 					0x00000004;	//	ignore Long Values (and other data otherwise not in the same page as the record)
+
+/* Flags for JetBeginTransaction2 */
+pub const JET_bitTransactionReadOnly: JET_GRBIT = 		0x00000001;	/* transaction will not modify the database */
+
+	/* Flags for JetCommitTransaction */
+pub const JET_bitCommitLazyFlush: JET_GRBIT = 			0x00000001;	/* lazy flush log buffers. */
+pub const JET_bitWaitLastLevel0Commit: JET_GRBIT = 		0x00000002;	/* wait for last level 0 commit record flushed */
+pub const JET_bitWaitAllLevel0Commit: JET_GRBIT = 		0x00000008;	/* wait for all level 0 commits to be flushed */
+pub const JET_bitForceNewLog: JET_GRBIT = 				0x00000010;
+
+	/* Flags for JetRollback */
+pub const JET_bitRollbackAll: JET_GRBIT = 				0x00000001;
+
+	/* Flags for JetOSSnapshot APIs */
+
+	/* Flags for JetOSSnapshotPrepare */
+pub const JET_bitIncrementalSnapshot: JET_GRBIT = 		0x00000001;	/* bit 0: full (0) or incremental (1) snapshot */
+pub const JET_bitCopySnapshot: JET_GRBIT = 				0x00000002;	/* bit 1: normal (0) or copy (1) snapshot */
+pub const JET_bitContinueAfterThaw: JET_GRBIT = 		0x00000004;	/* bit 2: end on thaw (0) or wait for [truncate +] end snapshot */
+pub const JET_bitExplicitPrepare: JET_GRBIT = 			0x00000008;	/* bit 3: all instaces prepared by default (0) or no instance prepared by default (1)  */
+
+	/* Flags for JetOSSnapshotTruncateLog & JetOSSnapshotTruncateLogInstance */
+pub const JET_bitAllDatabasesSnapshot: JET_GRBIT = 		0x00000001;	/* bit 0: there are detached dbs in the instance (i.e. can't truncate logs) */
+
+	/* Flags for JetOSSnapshotEnd */
+pub const JET_bitAbortSnapshot: JET_GRBIT = 			0x00000001;  /* snapshot process failed */
+
+// grbits for JetResizeDatabase:
+pub const JET_bitResizeDatabaseOnlyGrow: JET_GRBIT = 				0x00000001;	// Only grow the database. If the resize call would shrink the database, do nothing.
+pub const JET_bitResizeDatabaseOnlyShrink: JET_GRBIT = 				0x00000002;	// Only shrink the database, but keeping an empty extent at the end. If the resize call would grow the database, do nothing. The file may end up smaller than requested.
+pub const JET_bitStopServiceAll: JET_GRBIT = 						0x00000000;	//	Stops all ESE services for the specified instance.
+pub const JET_bitStopServiceBackgroundUserTasks: JET_GRBIT = 		0x00000002;	//	Stops restartable client specificed background maintenance tasks (B+ Tree Defrag for example).
+pub const JET_bitStopServiceQuiesceCaches: JET_GRBIT = 				0x00000004;	//	Quiesces all dirty caches to disk. Asynchronous. Cancellable.
+// Warning: This bit can only be used to resume StopServiceBackgroundUserTasks and JET_bitStopServiceQuiesceCaches, if you
+// previously called with JET_bitStopServiceAll, attempting to use JET_bitStopServiceResume will fail.
+pub const JET_bitStopServiceResume: JET_GRBIT = 					0x80000000;	//	Resumes previously issued StopService operations, i.e. "restarts service".  Can be combined with above grbits to Resume specific services, or with JET_bitStopServiceAll to Resume all previously stopped services.
 
 /**********************************************************************/
 /***********************     ERROR CODES     **************************/
