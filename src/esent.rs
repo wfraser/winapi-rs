@@ -535,3 +535,497 @@ pub const JET_paramProcessFriendlyName: ParamId = 186;
 pub const JET_paramDurableCommitCallback: ParamId = 187;
 pub const JET_paramEnableSqm: ParamId = 188;
 pub const JET_paramConfigStoreSpec: ParamId = 189;
+
+/**********************************************************************/
+/***********************     ERROR CODES     **************************/
+/**********************************************************************/
+
+// SUCCESS
+
+pub const JET_errSuccess: JET_ERR=						 0;    /* Successful Operation */
+
+// ERRORS
+
+pub const JET_wrnNyi: JET_ERR=							-1;    /* Function Not Yet Implemented */
+
+//	SYSTEM errors
+pub const JET_errRfsFailure: JET_ERR=					-100;  /* Resource Failure Simulator failure */
+pub const JET_errRfsNotArmed: JET_ERR=					-101;  /* Resource Failure Simulator not initialized */
+pub const JET_errFileClose: JET_ERR=					-102;  /* Could not close file */
+pub const JET_errOutOfThreads: JET_ERR=					-103;  /* Could not start thread */
+pub const JET_errTooManyIO: JET_ERR=					-105;  /* System busy due to too many IOs */
+pub const JET_errTaskDropped: JET_ERR=					-106;  /* A requested async task could not be executed */
+pub const JET_errInternalError: JET_ERR=				-107;  /* Fatal internal error */
+pub const JET_errDisabledFunctionality: JET_ERR=		-112;  /* You are running MinESE, that does not have all features compiled in.  This functionality is only supported in a full version of ESE. */
+pub const JET_errUnloadableOSFunctionality: JET_ERR=	-113;  /* The desired OS functionality could not be located and loaded / linked. */
+
+//	BUFFER MANAGER errors
+pub const JET_errDatabaseBufferDependenciesCorrupted: JET_ERR=	-255;	/* Buffer dependencies improperly set. Recovery failure */
+
+//	DIRECTORY MANAGER errors
+pub const JET_wrnRemainingVersions: JET_ERR= 			 321;  /* The version store is still active */
+pub const JET_errPreviousVersion: JET_ERR=				-322;  /* Version already existed. Recovery failure */
+pub const JET_errPageBoundary: JET_ERR=					-323;  /* Reached Page Boundary */
+pub const JET_errKeyBoundary: JET_ERR=		  			-324;  /* Reached Key Boundary */
+pub const JET_errBadPageLink: JET_ERR=					-327;  /* Database corrupted */
+pub const JET_errBadBookmark: JET_ERR=					-328;  /* Bookmark has no corresponding address in database */
+pub const JET_errNTSystemCallFailed: JET_ERR= 			-334;  // A call to the operating system failed
+pub const JET_errBadParentPageLink: JET_ERR=			-338;  // Database corrupted
+pub const JET_errSPAvailExtCacheOutOfSync: JET_ERR=		-340;  // AvailExt cache doesn't match btree
+pub const JET_errSPAvailExtCorrupted: JET_ERR=			-341;  // AvailExt space tree is corrupt
+pub const JET_errSPAvailExtCacheOutOfMemory: JET_ERR=	-342;  // Out of memory allocating an AvailExt cache node
+pub const JET_errSPOwnExtCorrupted: JET_ERR=			-343;  // OwnExt space tree is corrupt
+pub const JET_errDbTimeCorrupted: JET_ERR=				-344;  // Dbtime on current page is greater than global database dbtime
+pub const JET_wrnUniqueKey: JET_ERR=					 345;  // seek on non-unique index yielded a unique key
+pub const JET_errKeyTruncated: JET_ERR=					-346;  // key truncated on index that disallows key truncation
+pub const JET_errDatabaseLeakInSpace: JET_ERR=			-348;  // Some database pages have become unreachable even from the avail tree, only an offline defragmentation can return the lost space.
+pub const JET_errBadEmptyPage: JET_ERR=					-351;  // Database corrupted. Searching an unexpectedly empty page.
+
+//	RECORD MANAGER errors
+pub const JET_wrnSeparateLongValue: JET_ERR=			 406;  /* Column is a separated long-value */
+pub const JET_wrnRecordFoundGreater: JET_ERR=			JET_wrnSeekNotEqual;
+pub const JET_wrnRecordFoundLess: JET_ERR=    			JET_wrnSeekNotEqual;
+pub const JET_errColumnIllegalNull: JET_ERR=  			JET_errNullInvalid;
+pub const JET_errKeyTooBig: JET_ERR=					-408;  /* Key is too large */
+pub const JET_errCannotSeparateIntrinsicLV: JET_ERR=	-416;	// illegal attempt to separate an LV which must be intrinsic
+pub const JET_errSeparatedLongValue: JET_ERR=			-421; /* Operation not supported on separated long-value */
+pub const JET_errMustBeSeparateLongValue: JET_ERR=		-423;  /* Can only preread long value columns that can be separate, e.g. not size constrained so that they are fixed or variable columns */
+pub const JET_errInvalidPreread: JET_ERR=				-424;  /* Cannot preread long values when current index secondary */
+
+//	LOGGING/RECOVERY errors
+pub const JET_errInvalidLoggedOperation: JET_ERR=		-500;  /* Logged operation cannot be redone */
+pub const JET_errLogFileCorrupt: JET_ERR=		  		-501;  /* Log file is corrupt */
+pub const JET_errNoBackupDirectory: JET_ERR= 			-503;  /* No backup directory given */
+pub const JET_errBackupDirectoryNotEmpty: JET_ERR= 		-504;  /* The backup directory is not emtpy */
+pub const JET_errBackupInProgress: JET_ERR= 			-505;  /* Backup is active already */
+pub const JET_errRestoreInProgress: JET_ERR=			-506;  /* Restore in progress */
+pub const JET_errMissingPreviousLogFile: JET_ERR=		-509;  /* Missing the log file for check point */
+pub const JET_errLogWriteFail: JET_ERR=					-510;  /* Failure writing to log file */
+pub const JET_errLogDisabledDueToRecoveryFailure: JET_ERR=	-511; /* Try to log something after recovery faild */
+pub const JET_errCannotLogDuringRecoveryRedo: JET_ERR=		-512;	/* Try to log something during recovery redo */
+pub const JET_errLogGenerationMismatch: JET_ERR=		-513;  /* Name of logfile does not match internal generation number */
+pub const JET_errBadLogVersion: JET_ERR=  	  			-514;  /* Version of log file is not compatible with Jet version */
+pub const JET_errInvalidLogSequence: JET_ERR=  			-515;  /* Timestamp in next log does not match expected */
+pub const JET_errLoggingDisabled: JET_ERR= 				-516;  /* Log is not active */
+pub const JET_errLogBufferTooSmall: JET_ERR=			-517;  /* Log buffer is too small for recovery */
+pub const JET_errLogSequenceEnd: JET_ERR=				-519;  /* Maximum log file number exceeded */
+pub const JET_errNoBackup: JET_ERR=						-520;  /* No backup in progress */
+pub const JET_errInvalidBackupSequence: JET_ERR=		-521;  /* Backup call out of sequence */
+pub const JET_errBackupNotAllowedYet: JET_ERR=			-523;  /* Cannot do backup now */
+pub const JET_errDeleteBackupFileFail: JET_ERR=	   		-524;  /* Could not delete backup file */
+pub const JET_errMakeBackupDirectoryFail: JET_ERR= 		-525;  /* Could not make backup temp directory */
+pub const JET_errInvalidBackup: JET_ERR=		 		-526;  /* Cannot perform incremental backup when circular logging enabled */
+pub const JET_errRecoveredWithErrors: JET_ERR=			-527;  /* Restored with errors */
+pub const JET_errMissingLogFile: JET_ERR=				-528;  /* Current log file missing */
+pub const JET_errLogDiskFull: JET_ERR=					-529;  /* Log disk full */
+pub const JET_errBadLogSignature: JET_ERR=				-530;  /* Bad signature for a log file */
+pub const JET_errBadDbSignature: JET_ERR=				-531;  /* Bad signature for a db file */
+pub const JET_errBadCheckpointSignature: JET_ERR=		-532;  /* Bad signature for a checkpoint file */
+pub const JET_errCheckpointCorrupt: JET_ERR=			-533;  /* Checkpoint file not found or corrupt */
+pub const JET_errMissingPatchPage: JET_ERR=				-534;  /* Patch file page not found during recovery */
+pub const JET_errBadPatchPage: JET_ERR=					-535;  /* Patch file page is not valid */
+pub const JET_errRedoAbruptEnded: JET_ERR=				-536;  /* Redo abruptly ended due to sudden failure in reading logs from log file */
+pub const JET_errPatchFileMissing: JET_ERR=				-538;  /* Hard restore detected that patch file is missing from backup set */
+pub const JET_errDatabaseLogSetMismatch: JET_ERR=		-539;  /* Database does not belong with the current set of log files */
+pub const JET_errDatabaseStreamingFileMismatch: JET_ERR=	-540; /* Database and streaming file do not match each other */
+pub const JET_errLogFileSizeMismatch: JET_ERR=			-541;  /* actual log file size does not match JET_paramLogFileSize */
+pub const JET_errCheckpointFileNotFound: JET_ERR=		-542;  /* Could not locate checkpoint file */
+pub const JET_errRequiredLogFilesMissing: JET_ERR=		-543;  /* The required log files for recovery is missing. */
+pub const JET_errSoftRecoveryOnBackupDatabase: JET_ERR=	-544;  /* Soft recovery is intended on a backup database. Restore should be used instead */
+pub const JET_errLogFileSizeMismatchDatabasesConsistent: JET_ERR=	-545;  /* databases have been recovered, but the log file size used during recovery does not match JET_paramLogFileSize */
+pub const JET_errLogSectorSizeMismatch: JET_ERR=		-546;  /* the log file sector size does not match the current volume's sector size */
+pub const JET_errLogSectorSizeMismatchDatabasesConsistent: JET_ERR=	-547;  /* databases have been recovered, but the log file sector size (used during recovery) does not match the current volume's sector size */
+pub const JET_errLogSequenceEndDatabasesConsistent: JET_ERR=		-548; /* databases have been recovered, but all possible log generations in the current sequence are used; delete all log files and the checkpoint file and backup the databases before continuing */
+
+pub const JET_errStreamingDataNotLogged: JET_ERR=		-549;  /* Illegal attempt to replay a streaming file operation where the data wasn't logged. Probably caused by an attempt to roll-forward with circular logging enabled */
+
+pub const JET_errDatabaseDirtyShutdown: JET_ERR=		-550;  /* Database was not shutdown cleanly. Recovery must first be run to properly complete database operations for the previous shutdown. */
+pub const JET_errDatabaseInconsistent: JET_ERR=			JET_errDatabaseDirtyShutdown;	/* OBSOLETE */
+pub const JET_errConsistentTimeMismatch: JET_ERR=		-551;  /* Database last consistent time unmatched */
+pub const JET_errDatabasePatchFileMismatch: JET_ERR=	-552;  /* Patch file is not generated from this backup */
+pub const JET_errEndingRestoreLogTooLow: JET_ERR=		-553;  /* The starting log number too low for the restore */
+pub const JET_errStartingRestoreLogTooHigh: JET_ERR=	-554;  /* The starting log number too high for the restore */
+pub const JET_errGivenLogFileHasBadSignature: JET_ERR=	-555;  /* Restore log file has bad signature */
+pub const JET_errGivenLogFileIsNotContiguous: JET_ERR=	-556;  /* Restore log file is not contiguous */
+pub const JET_errMissingRestoreLogFiles: JET_ERR=		-557;  /* Some restore log files are missing */
+pub const JET_wrnExistingLogFileHasBadSignature: JET_ERR=	558;  /* Existing log file has bad signature */
+pub const JET_wrnExistingLogFileIsNotContiguous: JET_ERR=	559;  /* Existing log file is not contiguous */
+pub const JET_errMissingFullBackup: JET_ERR=			-560;  /* The database missed a previous full backup before incremental backup */
+pub const JET_errBadBackupDatabaseSize: JET_ERR=		-561;  /* The backup database size is not in 4k */
+pub const JET_errDatabaseAlreadyUpgraded: JET_ERR=		-562;  /* Attempted to upgrade a database that is already current */
+pub const JET_errDatabaseIncompleteUpgrade: JET_ERR=	-563;  /* Attempted to use a database which was only partially converted to the current format -- must restore from backup */
+pub const JET_wrnSkipThisRecord: JET_ERR=				 564;  /* INTERNAL ERROR */
+pub const JET_errMissingCurrentLogFiles: JET_ERR=		-565;  /* Some current log files are missing for continuous restore */
+
+pub const JET_errDbTimeTooOld: JET_ERR=						-566;  /* dbtime on page smaller than dbtimeBefore in record */
+pub const JET_errDbTimeTooNew: JET_ERR=						-567;  /* dbtime on page in advance of the dbtimeBefore in record */
+pub const JET_errMissingFileToBackup: JET_ERR=				-569;  /* Some log or patch files are missing during backup */
+
+pub const JET_errLogTornWriteDuringHardRestore: JET_ERR=	-570;	/* torn-write was detected in a backup set during hard restore */
+pub const JET_errLogTornWriteDuringHardRecovery: JET_ERR=	-571;	/* torn-write was detected during hard recovery (log was not part of a backup set) */
+pub const JET_errLogCorruptDuringHardRestore: JET_ERR=		-573;	/* corruption was detected in a backup set during hard restore */
+pub const JET_errLogCorruptDuringHardRecovery: JET_ERR=	 	-574;	/* corruption was detected during hard recovery (log was not part of a backup set) */
+
+pub const JET_errMustDisableLoggingForDbUpgrade: JET_ERR=	-575;	/* Cannot have logging enabled while attempting to upgrade db */
+
+pub const JET_errBadRestoreTargetInstance: JET_ERR=			-577;	/* TargetInstance specified for restore is not found or log files don't match */
+pub const JET_wrnTargetInstanceRunning: JET_ERR=			 578;	/* TargetInstance specified for restore is running */
+
+pub const JET_errRecoveredWithoutUndo: JET_ERR=				-579;	/* Soft recovery successfully replayed all operations, but the Undo phase of recovery was skipped */
+
+pub const JET_errDatabasesNotFromSameSnapshot: JET_ERR=		-580;	/* Databases to be restored are not from the same shadow copy backup */
+pub const JET_errSoftRecoveryOnSnapshot: JET_ERR=			-581;	/* Soft recovery on a database from a shadow copy backup set */
+pub const JET_errCommittedLogFilesMissing: JET_ERR=			-582;	/* One or more logs that were committed to this database, are missing.  These log files are required to maintain durable ACID semantics, but not required to maintain consistency if the JET_bitReplayIgnoreLostLogs bit is specified during recovery. */
+pub const JET_errSectorSizeNotSupported: JET_ERR=			-583;	/* The physical sector size reported by the disk subsystem, is unsupported by ESE for a specific file type. */
+pub const JET_errRecoveredWithoutUndoDatabasesConsistent: JET_ERR=	-584;	/* Soft recovery successfully replayed all operations and intended to skip the Undo phase of recovery, but the Undo phase was not required */
+pub const JET_wrnCommittedLogFilesLost: JET_ERR=			585;		/* One or more logs that were committed to this database, were not recovered.  The database is still clean/consistent, as though the lost log's transactions were committed lazily (and lost). */
+pub const JET_errCommittedLogFileCorrupt: JET_ERR=			-586;	/* One or more logs were found to be corrupt during recovery.  These log files are required to maintain durable ACID semantics, but not required to maintain consistency if the JET_bitIgnoreLostLogs bit and JET_paramDeleteOutOfRangeLogs is specified during recovery. */
+pub const JET_wrnCommittedLogFilesRemoved: JET_ERR=			587;		/* One or more logs that were committed to this database, were no recovered.  The database is still clean/consistent, as though the corrupted log's transactions were committed lazily (and lost). */
+pub const JET_wrnFinishWithUndo: JET_ERR=					588;		/* Signal used by clients to indicate JetInit() finished with undo */
+
+pub const JET_wrnDatabaseRepaired: JET_ERR=					 595;	/* Database corruption has been repaired */
+
+pub const JET_errUnicodeTranslationBufferTooSmall: JET_ERR=	-601;	/* Unicode translation buffer too small */
+pub const JET_errUnicodeTranslationFail: JET_ERR=			-602;	/* Unicode normalization failed */
+pub const JET_errUnicodeNormalizationNotSupported: JET_ERR=	-603;	/* OS does not provide support for Unicode normalisation (and no normalisation callback was specified) */
+pub const JET_errUnicodeLanguageValidationFailure: JET_ERR=	-604;	/* Can not validate the language */
+
+pub const JET_errExistingLogFileHasBadSignature: JET_ERR=	-610;	/* Existing log file has bad signature */
+pub const JET_errExistingLogFileIsNotContiguous: JET_ERR=	-611;	/* Existing log file is not contiguous */
+
+pub const JET_errLogReadVerifyFailure: JET_ERR=			-612;  /* Checksum error in log file during backup */
+
+pub const JET_errCheckpointDepthTooDeep: JET_ERR=		-614;	//	too many outstanding generations between checkpoint and current generation
+
+pub const JET_errRestoreOfNonBackupDatabase: JET_ERR=	-615;	//	hard recovery attempted on a database that wasn't a backup database
+pub const JET_errLogFileNotCopied: JET_ERR=				-616;	//	log truncation attempted but not all required logs were copied
+pub const JET_errTransactionTooLong: JET_ERR=			-618;	//	Too many outstanding generations between JetBeginTransaction and current generation.
+
+pub const JET_errEngineFormatVersionNoLongerSupportedTooLow: JET_ERR=			-619; /* The specified JET_ENGINEFORMATVERSION value is too low to be supported by this version of ESE. */
+pub const JET_errEngineFormatVersionNotYetImplementedTooHigh: JET_ERR=			-620; /* The specified JET_ENGINEFORMATVERSION value is too high, higher than this version of ESE knows about. */
+pub const JET_errEngineFormatVersionParamTooLowForRequestedFeature: JET_ERR=	-621; /* Thrown by a format feature (not at JetSetSystemParameter) if the client requests a feature that requires a version higher than that set for the JET_paramEngineFormatVersion. */
+pub const JET_errEngineFormatVersionSpecifiedTooLowForLogVersion: JET_ERR=						-622; /* The specified JET_ENGINEFORMATVERSION is set too low for this log stream, the log files have already been upgraded to a higher version.  A higher JET_ENGINEFORMATVERSION value must be set in the param. */
+pub const JET_errEngineFormatVersionSpecifiedTooLowForDatabaseVersion: JET_ERR= 				-623; /* The specified JET_ENGINEFORMATVERSION is set too low for this database file, the database file has already been upgraded to a higher version.  A higher JET_ENGINEFORMATVERSION value must be set in the param. */
+
+pub const JET_errBackupAbortByServer: JET_ERR=			-801;  /* Backup was aborted by server by calling JetTerm with JET_bitTermStopBackup or by calling JetStopBackup */
+
+pub const JET_errInvalidGrbit: JET_ERR=					-900;  /* Invalid flags parameter */
+
+pub const JET_errTermInProgress: JET_ERR=		  		-1000; /* Termination in progress */
+pub const JET_errFeatureNotAvailable: JET_ERR=			-1001; /* API not supported */
+pub const JET_errInvalidName: JET_ERR=					-1002; /* Invalid name */
+pub const JET_errInvalidParameter: JET_ERR= 			-1003; /* Invalid API parameter */
+pub const JET_wrnColumnNull: JET_ERR=					 1004; /* Column is NULL-valued */
+pub const JET_wrnBufferTruncated: JET_ERR=				 1006; /* Buffer too small for data */
+pub const JET_wrnDatabaseAttached: JET_ERR= 			 1007; /* Database is already attached */
+pub const JET_errDatabaseFileReadOnly: JET_ERR=			-1008; /* Tried to attach a read-only database file for read/write operations */
+pub const JET_wrnSortOverflow: JET_ERR=					 1009; /* Sort does not fit in memory */
+pub const JET_errInvalidDatabaseId: JET_ERR=			-1010; /* Invalid database id */
+pub const JET_errOutOfMemory: JET_ERR=					-1011; /* Out of Memory */
+pub const JET_errOutOfDatabaseSpace: JET_ERR= 			-1012; /* Maximum database size reached */
+pub const JET_errOutOfCursors: JET_ERR=					-1013; /* Out of table cursors */
+pub const JET_errOutOfBuffers: JET_ERR=					-1014; /* Out of database page buffers */
+pub const JET_errTooManyIndexes: JET_ERR=				-1015; /* Too many indexes */
+pub const JET_errTooManyKeys: JET_ERR=					-1016; /* Too many columns in an index */
+pub const JET_errRecordDeleted: JET_ERR=				-1017; /* Record has been deleted */
+pub const JET_errReadVerifyFailure: JET_ERR=			-1018; /* Checksum error on a database page */
+pub const JET_errPageNotInitialized: JET_ERR=			-1019; /* Blank database page */
+pub const JET_errOutOfFileHandles: JET_ERR=	 			-1020; /* Out of file handles */
+pub const JET_errDiskReadVerificationFailure: JET_ERR=	-1021; /* The OS returned ERROR_CRC from file IO */
+pub const JET_errDiskIO: JET_ERR=						-1022; /* Disk IO error */
+pub const JET_errInvalidPath: JET_ERR=					-1023; /* Invalid file path */
+pub const JET_errInvalidSystemPath: JET_ERR=			-1024; /* Invalid system path */
+pub const JET_errInvalidLogDirectory: JET_ERR=			-1025; /* Invalid log directory */
+pub const JET_errRecordTooBig: JET_ERR=					-1026; /* Record larger than maximum size */
+pub const JET_errTooManyOpenDatabases: JET_ERR=			-1027; /* Too many open databases */
+pub const JET_errInvalidDatabase: JET_ERR=				-1028; /* Not a database file */
+pub const JET_errNotInitialized: JET_ERR=				-1029; /* Database engine not initialized */
+pub const JET_errAlreadyInitialized: JET_ERR=			-1030; /* Database engine already initialized */
+pub const JET_errInitInProgress: JET_ERR=				-1031; /* Database engine is being initialized */
+pub const JET_errFileAccessDenied: JET_ERR= 			-1032; /* Cannot access file, the file is locked or in use */
+pub const JET_errBufferTooSmall: JET_ERR=				-1038; /* Buffer is too small */
+pub const JET_wrnSeekNotEqual: JET_ERR=					 1039; /* Exact match not found during seek */
+pub const JET_errTooManyColumns: JET_ERR=				-1040; /* Too many columns defined */
+pub const JET_errContainerNotEmpty: JET_ERR=			-1043; /* Container is not empty */
+pub const JET_errInvalidFilename: JET_ERR=				-1044; /* Filename is invalid */
+pub const JET_errInvalidBookmark: JET_ERR=				-1045; /* Invalid bookmark */
+pub const JET_errColumnInUse: JET_ERR=					-1046; /* Column used in an index */
+pub const JET_errInvalidBufferSize: JET_ERR=			-1047; /* Data buffer doesn't match column size */
+pub const JET_errColumnNotUpdatable: JET_ERR=			-1048; /* Cannot set column value */
+pub const JET_errIndexInUse: JET_ERR=					-1051; /* Index is in use */
+pub const JET_errLinkNotSupported: JET_ERR= 			-1052; /* Link support unavailable */
+pub const JET_errNullKeyDisallowed: JET_ERR=			-1053; /* Null keys are disallowed on index */
+pub const JET_errNotInTransaction: JET_ERR= 			-1054; /* Operation must be within a transaction */
+pub const JET_wrnNoErrorInfo: JET_ERR=					 1055; /* No extended error information */
+pub const JET_errMustRollback: JET_ERR=					-1057; /* Transaction must rollback because failure of unversioned update */
+pub const JET_wrnNoIdleActivity: JET_ERR=		 		 1058; /* No idle activity occured */
+pub const JET_errTooManyActiveUsers: JET_ERR=			-1059; /* Too many active database users */
+pub const JET_errInvalidCountry: JET_ERR=				-1061; /* Invalid or unknown country/region code */
+pub const JET_errInvalidLanguageId: JET_ERR=			-1062; /* Invalid or unknown language id */
+pub const JET_errInvalidCodePage: JET_ERR=				-1063; /* Invalid or unknown code page */
+pub const JET_errInvalidLCMapStringFlags: JET_ERR=		-1064; /* Invalid flags for LCMapString() */
+pub const JET_errVersionStoreEntryTooBig: JET_ERR=		-1065; /* Attempted to create a version store entry (RCE) larger than a version bucket */
+pub const JET_errVersionStoreOutOfMemoryAndCleanupTimedOut: JET_ERR=	-1066; /* Version store out of memory (and cleanup attempt failed to complete) */
+pub const JET_wrnNoWriteLock: JET_ERR=					 1067; /* No write lock at transaction level 0 */
+pub const JET_wrnColumnSetNull: JET_ERR=		   		 1068; /* Column set to NULL-value */
+pub const JET_errVersionStoreOutOfMemory: JET_ERR=		-1069; /* Version store out of memory (cleanup already attempted) */
+pub const JET_errCannotIndex: JET_ERR=		 	  		-1071; /* Cannot index escrow column */
+pub const JET_errRecordNotDeleted: JET_ERR=				-1072; /* Record has not been deleted */
+pub const JET_errTooManyMempoolEntries: JET_ERR=		-1073; /* Too many mempool entries requested */
+pub const JET_errOutOfObjectIDs: JET_ERR=				-1074; /* Out of btree ObjectIDs (perform offline defrag to reclaim freed/unused ObjectIds) */
+pub const JET_errOutOfLongValueIDs: JET_ERR=			-1075; /* Long-value ID counter has reached maximum value. (perform offline defrag to reclaim free/unused LongValueIDs) */
+pub const JET_errOutOfAutoincrementValues: JET_ERR=		-1076; /* Auto-increment counter has reached maximum value (offline defrag WILL NOT be able to reclaim free/unused Auto-increment values). */
+pub const JET_errOutOfDbtimeValues: JET_ERR=			-1077; /* Dbtime counter has reached maximum value (perform offline defrag to reclaim free/unused Dbtime values) */
+pub const JET_errOutOfSequentialIndexValues: JET_ERR=	-1078; /* Sequential index counter has reached maximum value (perform offline defrag to reclaim free/unused SequentialIndex values) */
+
+pub const JET_errRunningInOneInstanceMode: JET_ERR=		-1080; /* Multi-instance call with single-instance mode enabled */
+pub const JET_errRunningInMultiInstanceMode: JET_ERR=	-1081; /* Single-instance call with multi-instance mode enabled */
+pub const JET_errSystemParamsAlreadySet: JET_ERR=		-1082; /* Global system parameters have already been set */
+
+pub const JET_errSystemPathInUse: JET_ERR=				-1083; /* System path already used by another database instance */
+pub const JET_errLogFilePathInUse: JET_ERR=				-1084; /* Logfile path already used by another database instance */
+pub const JET_errTempPathInUse: JET_ERR=				-1085; /* Temp path already used by another database instance */
+pub const JET_errInstanceNameInUse: JET_ERR=			-1086; /* Instance Name already in use */
+pub const JET_errSystemParameterConflict: JET_ERR=		-1087; /* Global system parameters have already been set, but to a conflicting or disagreeable state to the specified values. */
+
+pub const JET_errInstanceUnavailable: JET_ERR=			-1090; /* This instance cannot be used because it encountered a fatal error */
+pub const JET_errDatabaseUnavailable: JET_ERR=			-1091; /* This database cannot be used because it encountered a fatal error */
+pub const JET_errInstanceUnavailableDueToFatalLogDiskFull: JET_ERR=	-1092; /* This instance cannot be used because it encountered a log-disk-full error performing an operation (likely transaction rollback) that could not tolerate failure */
+pub const JET_errInvalidSesparamId: JET_ERR=			-1093; /* This JET_sesparam* identifier is not known to the ESE engine. */
+
+pub const JET_errOutOfSessions: JET_ERR=  				-1101; /* Out of sessions */
+pub const JET_errWriteConflict: JET_ERR=				-1102; /* Write lock failed due to outstanding write lock */
+pub const JET_errTransTooDeep: JET_ERR=					-1103; /* Transactions nested too deeply */
+pub const JET_errInvalidSesid: JET_ERR=					-1104; /* Invalid session handle */
+pub const JET_errWriteConflictPrimaryIndex: JET_ERR=	-1105; /* Update attempted on uncommitted primary index */
+pub const JET_errInTransaction: JET_ERR=				-1108; /* Operation not allowed within a transaction */
+pub const JET_errRollbackRequired: JET_ERR=				-1109; /* Must rollback current transaction -- cannot commit or begin a new one */
+pub const JET_errTransReadOnly: JET_ERR=				-1110; /* Read-only transaction tried to modify the database */
+pub const JET_errSessionWriteConflict: JET_ERR=			-1111; /* Attempt to replace the same record by two diffrerent cursors in the same session */
+
+pub const JET_errRecordTooBigForBackwardCompatibility: JET_ERR=				-1112; /* record would be too big if represented in a database format from a previous version of Jet */
+pub const JET_errCannotMaterializeForwardOnlySort: JET_ERR=					-1113; /* The temp table could not be created due to parameters that conflict with JET_bitTTForwardOnly */
+
+pub const JET_errSesidTableIdMismatch: JET_ERR=			-1114; /* This session handle can't be used with this table id */
+pub const JET_errInvalidInstance: JET_ERR=				-1115; /* Invalid instance handle */
+pub const JET_errDirtyShutdown: JET_ERR=				-1116; /* The instance was shutdown successfully but all the attached databases were left in a dirty state by request via JET_bitTermDirty */
+// unused -1117
+pub const JET_errReadPgnoVerifyFailure: JET_ERR=		-1118; /* The database page read from disk had the wrong page number. */
+pub const JET_errReadLostFlushVerifyFailure: JET_ERR=	-1119; /* The database page read from disk had a previous write not represented on the page. */
+pub const JET_errFileSystemCorruption: JET_ERR=				-1121; /* File system operation failed with an error indicating the file system is corrupt. */
+pub const JET_wrnShrinkNotPossible: JET_ERR=				1122; /* Database file could not be shrunk because there is not enough internal free space available or there is unmovable data present. */
+pub const JET_errRecoveryVerifyFailure: JET_ERR=			-1123; /* One or more database pages read from disk during recovery do not match the expected state. */
+
+pub const JET_errFilteredMoveNotSupported: JET_ERR=			-1124; /* Attempted to provide a filter to JetSetCursorFilter() in an unsupported scenario. */
+
+pub const JET_errDatabaseDuplicate: JET_ERR=			-1201; /* Database already exists */
+pub const JET_errDatabaseInUse: JET_ERR=				-1202; /* Database in use */
+pub const JET_errDatabaseNotFound: JET_ERR= 			-1203; /* No such database */
+pub const JET_errDatabaseInvalidName: JET_ERR=			-1204; /* Invalid database name */
+pub const JET_errDatabaseInvalidPages: JET_ERR=			-1205; /* Invalid number of pages */
+pub const JET_errDatabaseCorrupted: JET_ERR=			-1206; /* Non database file or corrupted db */
+pub const JET_errDatabaseLocked: JET_ERR=				-1207; /* Database exclusively locked */
+pub const JET_errCannotDisableVersioning: JET_ERR=		-1208; /* Cannot disable versioning for this database */
+pub const JET_errInvalidDatabaseVersion: JET_ERR=		-1209; /* Database engine is incompatible with database */
+
+/*	The following error code are for NT clients only. It will return such error during
+ *	JetInit if JET_paramCheckFormatWhenOpenFail is set.
+ */
+pub const JET_errDatabase200Format: JET_ERR=			-1210; /* The database is in an older (200) format */
+pub const JET_errDatabase400Format: JET_ERR=			-1211; /* The database is in an older (400) format */
+pub const JET_errDatabase500Format: JET_ERR=			-1212; /* The database is in an older (500) format */
+
+pub const JET_errPageSizeMismatch: JET_ERR=				-1213; /* The database page size does not match the engine */
+pub const JET_errTooManyInstances: JET_ERR=				-1214; /* Cannot start any more database instances */
+pub const JET_errDatabaseSharingViolation: JET_ERR=		-1215; /* A different database instance is using this database */
+pub const JET_errAttachedDatabaseMismatch: JET_ERR=		-1216; /* An outstanding database attachment has been detected at the start or end of recovery, but database is missing or does not match attachment info */
+pub const JET_errDatabaseInvalidPath: JET_ERR=			-1217; /* Specified path to database file is illegal */
+pub const JET_errDatabaseIdInUse: JET_ERR=				-1218; /* A database is being assigned an id already in use */
+pub const JET_errForceDetachNotAllowed: JET_ERR= 		-1219; /* Force Detach allowed only after normal detach errored out */
+pub const JET_errCatalogCorrupted: JET_ERR=				-1220; /* Corruption detected in catalog */
+pub const JET_errPartiallyAttachedDB: JET_ERR=			-1221; /* Database is partially attached. Cannot complete attach operation */
+pub const JET_errDatabaseSignInUse: JET_ERR=			-1222; /* Database with same signature in use */
+
+pub const JET_errDatabaseCorruptedNoRepair: JET_ERR=	-1224; /* Corrupted db but repair not allowed */
+pub const JET_errInvalidCreateDbVersion: JET_ERR=		-1225; /* recovery tried to replay a database creation, but the database was originally created with an incompatible (likely older) version of the database engine */
+
+pub const JET_errDatabaseNotReady: JET_ERR=				-1230; /* Recovery on this database has not yet completed enough to permit access. */
+pub const JET_errDatabaseAttachedForRecovery: JET_ERR=	-1231; /* Database is attached but only for recovery.  It must be explicitly attached before it can be opened.  */
+pub const JET_errTransactionsNotReadyDuringRecovery: JET_ERR= -1232;  /* Recovery has not seen any Begin0/Commit0 records and so does not know what trxBegin0 to assign to this transaction */
+
+pub const JET_wrnTableEmpty: JET_ERR=			 		 1301; /* Opened an empty table */
+pub const JET_errTableLocked: JET_ERR=					-1302; /* Table is exclusively locked */
+pub const JET_errTableDuplicate: JET_ERR=				-1303; /* Table already exists */
+pub const JET_errTableInUse: JET_ERR=					-1304; /* Table is in use, cannot lock */
+pub const JET_errObjectNotFound: JET_ERR=				-1305; /* No such table or object */
+pub const JET_errDensityInvalid: JET_ERR=				-1307; /* Bad file/index density */
+pub const JET_errTableNotEmpty: JET_ERR=				-1308; /* Table is not empty */
+pub const JET_errInvalidTableId: JET_ERR=				-1310; /* Invalid table id */
+pub const JET_errTooManyOpenTables: JET_ERR=			-1311; /* Cannot open any more tables (cleanup already attempted) */
+pub const JET_errIllegalOperation: JET_ERR= 			-1312; /* Oper. not supported on table */
+pub const JET_errTooManyOpenTablesAndCleanupTimedOut: JET_ERR=	-1313; /* Cannot open any more tables (cleanup attempt failed to complete) */
+pub const JET_errObjectDuplicate: JET_ERR=				-1314; /* Table or object name in use */
+pub const JET_errInvalidObject: JET_ERR=				-1316; /* Object is invalid for operation */
+pub const JET_errCannotDeleteTempTable: JET_ERR=		-1317; /* Use CloseTable instead of DeleteTable to delete temp table */
+pub const JET_errCannotDeleteSystemTable: JET_ERR=		-1318; /* Illegal attempt to delete a system table */
+pub const JET_errCannotDeleteTemplateTable: JET_ERR=	-1319; /* Illegal attempt to delete a template table */
+pub const JET_errExclusiveTableLockRequired: JET_ERR=	-1322; /* Must have exclusive lock on table. */
+pub const JET_errFixedDDL: JET_ERR=						-1323; /* DDL operations prohibited on this table */
+pub const JET_errFixedInheritedDDL: JET_ERR=			-1324; /* On a derived table, DDL operations are prohibited on inherited portion of DDL */
+pub const JET_errCannotNestDDL: JET_ERR=				-1325; /* Nesting of hierarchical DDL is not currently supported. */
+pub const JET_errDDLNotInheritable: JET_ERR=			-1326; /* Tried to inherit DDL from a table not marked as a template table. */
+pub const JET_wrnTableInUseBySystem: JET_ERR=			 1327; /* System cleanup has a cursor open on the table */
+pub const JET_errInvalidSettings: JET_ERR=				-1328; /* System parameters were set improperly */
+pub const JET_errClientRequestToStopJetService: JET_ERR=			-1329;	/* Client has requested stop service */
+pub const JET_errCannotAddFixedVarColumnToDerivedTable: JET_ERR=	-1330;	/* Template table was created with NoFixedVarColumnsInDerivedTables */
+
+//	DDL errors
+// Note: Some DDL errors have snuck into other categories.
+pub const JET_errIndexCantBuild: JET_ERR=				-1401; /* Index build failed */
+pub const JET_errIndexHasPrimary: JET_ERR=				-1402; /* Primary index already defined */
+pub const JET_errIndexDuplicate: JET_ERR=				-1403; /* Index is already defined */
+pub const JET_errIndexNotFound: JET_ERR=				-1404; /* No such index */
+pub const JET_errIndexMustStay: JET_ERR=				-1405; /* Cannot delete clustered index */
+pub const JET_errIndexInvalidDef: JET_ERR=				-1406; /* Illegal index definition */
+pub const JET_errInvalidCreateIndex: JET_ERR=	 		-1409; /* Invalid create index description */
+pub const JET_errTooManyOpenIndexes: JET_ERR=			-1410; /* Out of index description blocks */
+pub const JET_errMultiValuedIndexViolation: JET_ERR=	-1411; /* Non-unique inter-record index keys generated for a multivalued index */
+pub const JET_errIndexBuildCorrupted: JET_ERR=			-1412; /* Failed to build a secondary index that properly reflects primary index */
+pub const JET_errPrimaryIndexCorrupted: JET_ERR=		-1413; /* Primary index is corrupt. The database must be defragmented or the table deleted. */
+pub const JET_errSecondaryIndexCorrupted: JET_ERR=		-1414; /* Secondary index is corrupt. The database must be defragmented or the affected index must be deleted. If the corrupt index is over Unicode text, a likely cause a sort-order change. */
+pub const JET_wrnCorruptIndexDeleted: JET_ERR=			 1415; /* Out of date index removed */
+pub const JET_errInvalidIndexId: JET_ERR=				-1416; /* Illegal index id */
+pub const JET_wrnPrimaryIndexOutOfDate: JET_ERR=		 1417; /* The Primary index is created with an incompatible OS sort version. The table can not be safely modified. */
+pub const JET_wrnSecondaryIndexOutOfDate: JET_ERR=		 1418; /* One or more Secondary index is created with an incompatible OS sort version. Any index over Unicode text should be deleted. */
+
+pub const JET_errIndexTuplesSecondaryIndexOnly: JET_ERR=		-1430;	//	tuple index can only be on a secondary index
+pub const JET_errIndexTuplesTooManyColumns: JET_ERR=			-1431;	//	tuple index may only have eleven columns in the index
+pub const JET_errIndexTuplesOneColumnOnly: JET_ERR=				JET_errIndexTuplesTooManyColumns;	/* OBSOLETE */
+pub const JET_errIndexTuplesNonUniqueOnly: JET_ERR=				-1432;	//	tuple index must be a non-unique index
+pub const JET_errIndexTuplesTextBinaryColumnsOnly: JET_ERR=		-1433;	//	tuple index must be on a text/binary column
+pub const JET_errIndexTuplesTextColumnsOnly: JET_ERR=			JET_errIndexTuplesTextBinaryColumnsOnly;		/* OBSOLETE */
+pub const JET_errIndexTuplesVarSegMacNotAllowed: JET_ERR=		-1434;	//	tuple index does not allow setting cbVarSegMac
+pub const JET_errIndexTuplesInvalidLimits: JET_ERR=				-1435;	//	invalid min/max tuple length or max characters to index specified
+pub const JET_errIndexTuplesCannotRetrieveFromIndex: JET_ERR=	-1436;	//	cannot call RetrieveColumn() with RetrieveFromIndex on a tuple index
+pub const JET_errIndexTuplesKeyTooSmall: JET_ERR=				-1437;	//	specified key does not meet minimum tuple length
+pub const JET_errInvalidLVChunkSize: JET_ERR=					-1438;	//	Specified LV chunk size is not supported
+pub const JET_errColumnCannotBeEncrypted: JET_ERR=				-1439;	//	Only JET_coltypLongText and JET_coltypLongBinary columns can be encrypted
+pub const JET_errCannotIndexOnEncryptedColumn: JET_ERR=			-1440;	//	Cannot index encrypted column
+
+//	DML errors
+// Note: Some DML errors have snuck into other categories.
+// Note: Some DDL errors have inappropriately snuck in here.
+pub const JET_errColumnLong: JET_ERR=					-1501; /* Column value is long */
+pub const JET_errColumnNoChunk: JET_ERR=				-1502; /* No such chunk in long value */
+pub const JET_errColumnDoesNotFit: JET_ERR= 			-1503; /* Field will not fit in record */
+pub const JET_errNullInvalid: JET_ERR=					-1504; /* Null not valid */
+pub const JET_errColumnIndexed: JET_ERR=				-1505; /* Column indexed, cannot delete */
+pub const JET_errColumnTooBig: JET_ERR=					-1506; /* Field length is greater than maximum */
+pub const JET_errColumnNotFound: JET_ERR=				-1507; /* No such column */
+pub const JET_errColumnDuplicate: JET_ERR=				-1508; /* Field is already defined */
+pub const JET_errMultiValuedColumnMustBeTagged: JET_ERR=	-1509; /* Attempted to create a multi-valued column, but column was not Tagged */
+pub const JET_errColumnRedundant: JET_ERR=				-1510; /* Second autoincrement or version column */
+pub const JET_errInvalidColumnType: JET_ERR=			-1511; /* Invalid column data type */
+pub const JET_wrnColumnMaxTruncated: JET_ERR=	 		 1512; /* Max length too big, truncated */
+pub const JET_errTaggedNotNULL: JET_ERR=				-1514; /* No non-NULL tagged columns */
+pub const JET_errNoCurrentIndex: JET_ERR=				-1515; /* Invalid w/o a current index */
+pub const JET_errKeyIsMade: JET_ERR=					-1516; /* The key is completely made */
+pub const JET_errBadColumnId: JET_ERR=					-1517; /* Column Id Incorrect */
+pub const JET_errBadItagSequence: JET_ERR=				-1518; /* Bad itagSequence for tagged column */
+pub const JET_errColumnInRelationship: JET_ERR=			-1519; /* Cannot delete, column participates in relationship */
+pub const JET_wrnCopyLongValue: JET_ERR=				 1520; /* Single instance column bursted */
+pub const JET_errCannotBeTagged: JET_ERR=				-1521; /* AutoIncrement and Version cannot be tagged */
+pub const JET_errDefaultValueTooBig: JET_ERR=			-1524; /* Default value exceeds maximum size */
+pub const JET_errMultiValuedDuplicate: JET_ERR=			-1525; /* Duplicate detected on a unique multi-valued column */
+pub const JET_errLVCorrupted: JET_ERR=					-1526; /* Corruption encountered in long-value tree */
+pub const JET_errMultiValuedDuplicateAfterTruncation: JET_ERR=	-1528; /* Duplicate detected on a unique multi-valued column after data was normalized, and normalizing truncated the data before comparison */
+pub const JET_errDerivedColumnCorruption: JET_ERR=		-1529; /* Invalid column in derived table */
+pub const JET_errInvalidPlaceholderColumn: JET_ERR=		-1530; /* Tried to convert column to a primary index placeholder, but column doesn't meet necessary criteria */
+pub const JET_wrnColumnSkipped: JET_ERR=				 1531; /* Column value(s) not returned because the corresponding column id or itagSequence requested for enumeration was null */
+pub const JET_wrnColumnNotLocal: JET_ERR=				 1532; /* Column value(s) not returned because they could not be reconstructed from the data at hand */
+pub const JET_wrnColumnMoreTags: JET_ERR=				 1533; /* Column values exist that were not requested for enumeration */
+pub const JET_wrnColumnTruncated: JET_ERR=				 1534; /* Column value truncated at the requested size limit during enumeration */
+pub const JET_wrnColumnPresent: JET_ERR=				 1535; /* Column values exist but were not returned by request */
+pub const JET_wrnColumnSingleValue: JET_ERR=			 1536; /* Column value returned in JET_COLUMNENUM as a result of JET_bitEnumerateCompressOutput */
+pub const JET_wrnColumnDefault: JET_ERR=				 1537; /* Column value(s) not returned because they were set to their default value(s) and JET_bitEnumerateIgnoreDefault was specified */
+pub const JET_errColumnCannotBeCompressed: JET_ERR=		-1538; /* Only JET_coltypLongText and JET_coltypLongBinary columns can be compressed */
+pub const JET_wrnColumnNotInRecord: JET_ERR=			 1539; /* Column value(s) not returned because they could not be reconstructed from the data in the record */
+pub const JET_errColumnNoEncryptionKey: JET_ERR=		-1540; /* Cannot retrieve/set encrypted column without an encryption key */
+
+pub const JET_errRecordNotFound: JET_ERR=				-1601; /* The key was not found */
+pub const JET_errRecordNoCopy: JET_ERR=					-1602; /* No working buffer */
+pub const JET_errNoCurrentRecord: JET_ERR=				-1603; /* Currency not on a record */
+pub const JET_errRecordPrimaryChanged: JET_ERR=			-1604; /* Primary key may not change */
+pub const JET_errKeyDuplicate: JET_ERR=					-1605; /* Illegal duplicate key */
+pub const JET_errAlreadyPrepared: JET_ERR=				-1607; /* Attempted to update record when record update was already in progress */
+pub const JET_errKeyNotMade: JET_ERR=					-1608; /* No call to JetMakeKey */
+pub const JET_errUpdateNotPrepared: JET_ERR=			-1609; /* No call to JetPrepareUpdate */
+pub const JET_wrnDataHasChanged: JET_ERR=		 		 1610; /* Data has changed */
+pub const JET_errDataHasChanged: JET_ERR=				-1611; /* Data has changed, operation aborted */
+pub const JET_wrnKeyChanged: JET_ERR=			 		 1618; /* Moved to new key */
+pub const JET_errLanguageNotSupported: JET_ERR=			-1619; /* Windows installation does not support language */
+pub const JET_errDecompressionFailed: JET_ERR=			-1620; /* Internal error: data could not be decompressed */
+pub const JET_errUpdateMustVersion: JET_ERR=			-1621; /* No version updates only for uncommitted tables */
+pub const JET_errDecryptionFailed: JET_ERR=				-1622; /* Data could not be decrypted */
+
+//	Sort Table errors
+pub const JET_errTooManySorts: JET_ERR=					-1701; /* Too many sort processes */
+pub const JET_errInvalidOnSort: JET_ERR=				-1702; /* Invalid operation on Sort */
+
+//	Other errors
+pub const JET_errTempFileOpenError: JET_ERR=			-1803; /* Temp file could not be opened */
+pub const JET_errTooManyAttachedDatabases: JET_ERR= 	-1805; /* Too many open databases */
+pub const JET_errDiskFull: JET_ERR= 					-1808; /* No space left on disk */
+pub const JET_errPermissionDenied: JET_ERR= 			-1809; /* Permission denied */
+pub const JET_errFileNotFound: JET_ERR=					-1811; /* File not found */
+pub const JET_errFileInvalidType: JET_ERR=				-1812; /* Invalid file type */
+pub const JET_wrnFileOpenReadOnly: JET_ERR=				 1813; /* Database file is read only */
+
+pub const JET_errAfterInitialization: JET_ERR=			-1850; /* Cannot Restore after init. */
+pub const JET_errLogCorrupted: JET_ERR=					-1852; /* Logs could not be interpreted */
+
+pub const JET_errInvalidOperation: JET_ERR= 			-1906; /* Invalid operation */
+pub const JET_errAccessDenied: JET_ERR=					-1907; /* Access denied */
+pub const JET_wrnIdleFull: JET_ERR=						 1908; /* Idle registry full */
+pub const JET_errTooManySplits: JET_ERR=				-1909; /* Infinite split */
+pub const JET_errSessionSharingViolation: JET_ERR=		-1910; /* Multiple threads are using the same session */
+pub const JET_errEntryPointNotFound: JET_ERR=			-1911; /* An entry point in a DLL we require could not be found */
+pub const JET_errSessionContextAlreadySet: JET_ERR=		-1912; /* Specified session already has a session context set */
+pub const JET_errSessionContextNotSetByThisThread: JET_ERR=	-1913; /* Tried to reset session context, but current thread did not orignally set the session context */
+pub const JET_errSessionInUse: JET_ERR=					-1914; /* Tried to terminate session in use */
+pub const JET_errRecordFormatConversionFailed: JET_ERR=	-1915; /* Internal error during dynamic record format conversion */
+pub const JET_errOneDatabasePerSession: JET_ERR=		-1916; /* Just one open user database per session is allowed (JET_paramOneDatabasePerSession) */
+pub const JET_errRollbackError: JET_ERR=				-1917; /* error during rollback */
+pub const JET_errFlushMapVersionUnsupported: JET_ERR=	-1918; /* The version of the persisted flush map is not supported by this version of the engine. */
+pub const JET_errFlushMapDatabaseMismatch: JET_ERR=		-1919; /* The persisted flush map and the database do not match. */
+pub const JET_errFlushMapUnrecoverable: JET_ERR=		-1920; /* The persisted flush map cannot be reconstructed. */
+
+pub const JET_wrnDefragAlreadyRunning: JET_ERR=			 2000; /* Online defrag already running on specified database */
+pub const JET_wrnDefragNotRunning: JET_ERR=				 2001; /* Online defrag not running on specified database */
+pub const JET_errDatabaseAlreadyRunningMaintenance: JET_ERR= -2004;	/* The operation did not complete successfully because the database is already running maintenance on specified database */
+
+pub const JET_wrnCallbackNotRegistered: JET_ERR=         2100; /* Unregistered a non-existant callback function */
+pub const JET_errCallbackFailed: JET_ERR=				-2101; /* A callback failed */
+pub const JET_errCallbackNotResolved: JET_ERR=			-2102; /* A callback function could not be found */
+
+pub const JET_errSpaceHintsInvalid: JET_ERR=			-2103; /* An element of the JET space hints structure was not correct or actionable. */
+
+pub const JET_errOSSnapshotInvalidSequence: JET_ERR=	-2401; /* OS Shadow copy API used in an invalid sequence */
+pub const JET_errOSSnapshotTimeOut: JET_ERR=			-2402; /* OS Shadow copy ended with time-out */
+pub const JET_errOSSnapshotNotAllowed: JET_ERR=			-2403; /* OS Shadow copy not allowed (backup or recovery in progress) */
+pub const JET_errOSSnapshotInvalidSnapId: JET_ERR=		-2404; /* invalid JET_OSSNAPID */
+
+pub const JET_errLSCallbackNotSpecified: JET_ERR=		-3000; /* Attempted to use Local Storage without a callback function being specified */
+pub const JET_errLSAlreadySet: JET_ERR=					-3001; /* Attempted to set Local Storage for an object which already had it set */
+pub const JET_errLSNotSet: JET_ERR=						-3002; /* Attempted to retrieve Local Storage from an object which didn't have it set */
+
+// FILE and DISK ERRORS
+//JET_errFileAccessDenied					-1032
+//JET_errFileNotFound						-1811
+//JET_errInvalidFilename					-1044
+pub const JET_errFileIOSparse: JET_ERR=					-4000; /* an I/O was issued to a location that was sparse */
+pub const JET_errFileIOBeyondEOF: JET_ERR=				-4001; /* a read was issued to a location beyond EOF (writes will expand the file) */
+pub const JET_errFileIOAbort: JET_ERR=					-4002; /* instructs the JET_ABORTRETRYFAILCALLBACK caller to abort the specified I/O */
+pub const JET_errFileIORetry: JET_ERR=					-4003; /* instructs the JET_ABORTRETRYFAILCALLBACK caller to retry the specified I/O */
+pub const JET_errFileIOFail: JET_ERR=					-4004; /* instructs the JET_ABORTRETRYFAILCALLBACK caller to fail the specified I/O */
+pub const JET_errFileCompressed: JET_ERR=				-4005; /* read/write access is not supported on compressed files */
