@@ -28,7 +28,7 @@ extern "system" {
     // pub fn CoCancelCall();
     // pub fn CoCopyProxy();
     // pub fn CoCreateFreeThreadedMarshaler();
-    // pub fn CoCreateGuid();
+    pub fn CoCreateGuid(pguid: *mut GUID) -> HRESULT;
     pub fn CoCreateInstance(
         rclsid: REFCLSID, pUnkOuter: LPUNKNOWN, dwClsContext: DWORD, riid: REFIID,
         ppv: *mut LPVOID,
