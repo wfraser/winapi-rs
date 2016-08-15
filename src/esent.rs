@@ -536,6 +536,260 @@ pub const JET_paramDurableCommitCallback: ParamId = 187;
 pub const JET_paramEnableSqm: ParamId = 188;
 pub const JET_paramConfigStoreSpec: ParamId = 189;
 
+/* Flags for JET_paramLegacyFileNames */
+pub const JET_bitESE98FileNames: JET_GRBIT = 			0x00000001;	//	Preserve the .log and .chk extension for compatibility reasons (i.e. Exchange)
+pub const JET_bitEightDotThreeSoftCompat: JET_GRBIT = 	0x00000002;	//	Preserve the 8.3 naming syntax for as long as possible. (this should not be changed, w/o ensuring there are no log files)
+
+/* Flags for JET_paramHungIOActions */
+pub const JET_bitHungIOEvent: JET_GRBIT = 					0x00000001;	// Log event when an IO appears to be hung for over the IO threshold.
+
+// Values for JET_paramEnableShrinkDatabase.
+pub const JET_bitShrinkDatabaseOff: JET_GRBIT = 			0x0;
+pub const JET_bitShrinkDatabaseOn: JET_GRBIT = 				0x1;		// Uses the file system's Sparse Files feature to release space in the middle of a file.
+pub const JET_bitShrinkDatabaseRealtime: JET_GRBIT = 		0x2;		// Attempts to reclaim space back to the file system after freeing significant amounts of data (when space is marked as Available to the Root space tree).
+// DEPRECATED:
+pub const JET_bitShrinkDatabaseTrim: JET_GRBIT = 			0x1;		// Deprecated value for JET_bitShrinkDatabaseOn; Will be removed!
+
+/* Flags for JetInit2, JetInit3 */
+pub const JET_bitReplayIgnoreMissingDB: JET_GRBIT = 		0x00000004;	//	Ignore missing databases during recovery. This is a very dangerous option and may irrevocably produce an inconsistent database if improperly used. Normal ESE usage does not typically require this dangerous option.
+pub const JET_bitRecoveryWithoutUndo: JET_GRBIT = 			0x00000008;	//	perform recovery, but halt at the Undo phase
+pub const JET_bitTruncateLogsAfterRecovery: JET_GRBIT = 	0x00000010;	//	on successful soft recovery, truncate log files
+pub const JET_bitReplayMissingMapEntryDB: JET_GRBIT = 		0x00000020;	//	missing database map entry default to same location
+pub const JET_bitLogStreamMustExist: JET_GRBIT = 			0x00000040;	//	transaction logs must exist in the logfile directory (ie. cannot auto-start a new log stream)
+pub const JET_bitReplayIgnoreLostLogs: JET_GRBIT = 			0x00000080;	//	ignore logs lost from the end of the log stream
+pub const JET_bitKeepDbAttachedAtEndOfRecovery: JET_GRBIT =  0x00001000; //	this allows db to remain attached at the end of recovery (for faster transition to running state)
+
+/* Flags for JetTerm2 */
+pub const JET_bitTermComplete: JET_GRBIT = 				0x00000001;
+pub const JET_bitTermAbrupt: JET_GRBIT = 				0x00000002;
+pub const JET_bitTermStopBackup: JET_GRBIT = 			0x00000004;
+pub const JET_bitTermDirty: JET_GRBIT = 				0x00000008;
+
+/* Flags for JetIdle */
+pub const JET_bitIdleFlushBuffers: JET_GRBIT = 			0x00000001;
+pub const JET_bitIdleCompact: JET_GRBIT = 				0x00000002;
+pub const JET_bitIdleStatus: JET_GRBIT = 				0x00000004;
+
+/* Flags for JetEndSession */
+
+/* Flags for JetAttachDatabase/JetOpenDatabase */
+pub const JET_bitDbReadOnly: JET_GRBIT = 				0x00000001;
+pub const JET_bitDbExclusive: JET_GRBIT = 				0x00000002; /* multiple opens allowed */
+pub const JET_bitDbDeleteCorruptIndexes: JET_GRBIT = 	0x00000010; /* delete indexes possibly corrupted by NT version upgrade */
+pub const JET_bitDbDeleteUnicodeIndexes: JET_GRBIT = 	0x00000400; /* delete all indexes with unicode columns */
+pub const JET_bitDbUpgrade: JET_GRBIT = 				0x00000200; /* */
+pub const JET_bitDbEnableBackgroundMaintenance: JET_GRBIT = 	0x00000800;	/* the database engine will initiate automatic background database maintenance */
+pub const JET_bitDbPurgeCacheOnAttach: JET_GRBIT = 		0x00001000; /* used to ensure any kept alive cache is purged for this DB before attach */
+
+/* Flags for JetDetachDatabase2 */
+pub const JET_bitForceDetach: JET_GRBIT = 			  		0x00000001;
+pub const JET_bitForceCloseAndDetach: JET_GRBIT = 			(0x00000002 | JET_bitForceDetach);
+
+/* Flags for JetCreateDatabase */
+pub const JET_bitDbRecoveryOff: JET_GRBIT =  			0x00000008; /* disable logging/recovery for this database */
+pub const JET_bitDbShadowingOff: JET_GRBIT = 			0x00000080; /* disable catalog shadowing */
+pub const JET_bitDbOverwriteExisting: JET_GRBIT = 		0x00000200; /* overwrite existing database with same name */
+
+/* Flags for JetBackup, JetBeginExternalBackup, JetBeginExternalBackupInstance, JetBeginSurrogateBackup */
+pub const JET_bitBackupIncremental: JET_GRBIT = 		0x00000001;
+pub const JET_bitBackupAtomic: JET_GRBIT = 				0x00000004;
+pub const JET_bitBackupSnapshot: JET_GRBIT = 			0x00000010;
+
+/* Flags for JetEndExternalBackupInstance2, JetEndSurrogateBackup */
+pub const JET_bitBackupEndNormal: JET_GRBIT = 				0x0001;
+pub const JET_bitBackupEndAbort: JET_GRBIT = 				0x0002;
+pub const JET_bitBackupTruncateDone: JET_GRBIT = 			0x0100;
+
+/* Flags for JetCreateTableColumnIndex */
+pub const JET_bitTableCreateFixedDDL: JET_GRBIT = 			0x00000001;	/* DDL is fixed */
+pub const JET_bitTableCreateTemplateTable: JET_GRBIT = 		0x00000002;	/* DDL is inheritable (implies FixedDDL) */
+pub const JET_bitTableCreateNoFixedVarColumnsInDerivedTables: JET_GRBIT = 	0x00000004;
+                                                    //	used in conjunction with JET_bitTableCreateTemplateTable
+                                                    //	to disallow fixed/var columns in derived tables (so that
+                                                    //	fixed/var columns may be added to the template in the future)
+pub const JET_bitTableCreateImmutableStructure: JET_GRBIT = 	0x00000008;	// Do not write to the input structures. Additionally, do not return any auto-opened tableid.
+
+/* Flags for JetAddColumn, JetGetColumnInfo, JetOpenTempTable */
+pub const JET_bitColumnFixed: JET_GRBIT = 				0x00000001;
+pub const JET_bitColumnTagged: JET_GRBIT = 				0x00000002;
+pub const JET_bitColumnNotNULL: JET_GRBIT = 			0x00000004;
+pub const JET_bitColumnVersion: JET_GRBIT = 				0x00000008;
+pub const JET_bitColumnAutoincrement: JET_GRBIT = 		0x00000010;
+pub const JET_bitColumnUpdatable: JET_GRBIT = 			0x00000020; /* JetGetColumnInfo only */
+pub const JET_bitColumnTTKey: JET_GRBIT = 				0x00000040; /* JetOpenTempTable only */
+pub const JET_bitColumnTTDescending: JET_GRBIT = 		0x00000080; /* JetOpenTempTable only */
+pub const JET_bitColumnMultiValued: JET_GRBIT = 			0x00000400;
+pub const JET_bitColumnEscrowUpdate: JET_GRBIT = 		0x00000800; /* escrow updated */
+pub const JET_bitColumnUnversioned: JET_GRBIT = 		0x00001000; /* for add column only - add column unversioned */
+pub const JET_bitColumnMaybeNull: JET_GRBIT = 			0x00002000; /* for retrieve column info of outer join where no match from the inner table */
+pub const JET_bitColumnFinalize: JET_GRBIT = 				0x00004000; /* this is a finalizable column (issue callback if escrow value equals 0) */
+pub const JET_bitColumnUserDefinedDefault: JET_GRBIT = 	0x00008000; /* default value from a user-provided callback */
+pub const JET_bitColumnDeleteOnZero: JET_GRBIT = 		0x00020000; /* this is a finalizable column (delete record if escrow value equals 0) */
+pub const JET_bitColumnCompressed: JET_GRBIT = 			0x00080000; /* data in the column can be compressed */
+
+//	flags for JetDeleteColumn
+pub const JET_bitDeleteColumnIgnoreTemplateColumns: JET_GRBIT = 	0x00000001;	//	for derived tables, don't bother looking in template columns
+
+/* Flags for JetSetCurrentIndex */
+pub const JET_bitMoveFirst: JET_GRBIT = 				0x00000000;
+pub const JET_bitNoMove: JET_GRBIT = 					0x00000002;
+
+/* Flags for JetMakeKey */
+pub const JET_bitNewKey: JET_GRBIT = 					0x00000001;
+pub const JET_bitStrLimit: JET_GRBIT =  				0x00000002;
+pub const JET_bitSubStrLimit: JET_GRBIT = 				0x00000004;
+pub const JET_bitNormalizedKey: JET_GRBIT =  			0x00000008;
+pub const JET_bitKeyDataZeroLength: JET_GRBIT = 		0x00000010;
+pub const JET_bitFullColumnStartLimit: JET_GRBIT = 		0x00000100;
+pub const JET_bitFullColumnEndLimit: JET_GRBIT = 		0x00000200;
+pub const JET_bitPartialColumnStartLimit: JET_GRBIT = 	0x00000400;
+pub const JET_bitPartialColumnEndLimit: JET_GRBIT = 	0x00000800;
+
+/* Flags for JetSetIndexRange */
+pub const JET_bitRangeInclusive: JET_GRBIT = 			0x00000001;
+pub const JET_bitRangeUpperLimit: JET_GRBIT = 			0x00000002;
+pub const JET_bitRangeInstantDuration: JET_GRBIT = 		0x00000004;
+pub const JET_bitRangeRemove: JET_GRBIT = 				0x00000008;
+
+/* Flags for JetGetLock */
+pub const JET_bitReadLock: JET_GRBIT = 					0x00000001;
+pub const JET_bitWriteLock: JET_GRBIT = 				0x00000002;
+
+/* Constants for JetMove */
+pub const JET_MoveFirst: JET_GRBIT = 					(0x80000000);
+pub const JET_MovePrevious: JET_GRBIT = 				(!1);
+pub const JET_MoveNext: JET_GRBIT = 					(1);
+pub const JET_MoveLast: JET_GRBIT = 					(0x7fffffff);
+
+/* Flags for JetMove */
+pub const JET_bitMoveKeyNE: JET_GRBIT = 				0x00000001;
+
+/* Flags for JetSeek */
+pub const JET_bitSeekEQ: JET_GRBIT = 					0x00000001;
+pub const JET_bitSeekLT: JET_GRBIT = 					0x00000002;
+pub const JET_bitSeekLE: JET_GRBIT = 					0x00000004;
+pub const JET_bitSeekGE: JET_GRBIT = 					0x00000008;
+pub const JET_bitSeekGT: JET_GRBIT = 		 			0x00000010;
+pub const JET_bitSetIndexRange: JET_GRBIT = 			0x00000020;
+pub const JET_bitCheckUniqueness: JET_GRBIT = 			0x00000040;	//	to be used with JET_bitSeekEQ only, returns JET_wrnUniqueKey if seek lands on a key which has no dupes
+
+//	Flags for JetGotoSecondaryIndexBookmark
+pub const JET_bitBookmarkPermitVirtualCurrency: JET_GRBIT = 	0x00000001;	//	place cursor on relative position in index if specified bookmark no longer exists
+
+/* Flags for JET_CONDITIONALCOLUMN */
+pub const JET_bitIndexColumnMustBeNull: JET_GRBIT = 	0x00000001;
+pub const JET_bitIndexColumnMustBeNonNull: JET_GRBIT = 	0x00000002;
+
+/* Flags for JET_INDEXRANGE */
+pub const JET_bitRecordInIndex: JET_GRBIT = 			0x00000001;
+pub const JET_bitRecordNotInIndex: JET_GRBIT = 			0x00000002;
+
+/* Flags for JetCreateIndex */
+pub const JET_bitIndexUnique: JET_GRBIT = 				0x00000001;
+pub const JET_bitIndexPrimary: JET_GRBIT = 				0x00000002;
+pub const JET_bitIndexDisallowNull: JET_GRBIT = 		0x00000004;
+pub const JET_bitIndexIgnoreNull: JET_GRBIT = 			0x00000008;
+pub const JET_bitIndexIgnoreAnyNull: JET_GRBIT = 		0x00000020;
+pub const JET_bitIndexIgnoreFirstNull: JET_GRBIT = 		0x00000040;
+pub const JET_bitIndexLazyFlush: JET_GRBIT = 			0x00000080;
+pub const JET_bitIndexEmpty: JET_GRBIT = 				0x00000100;	// don't attempt to build index, because all entries would evaluate to NULL (MUST also specify JET_bitIgnoreAnyNull)
+pub const JET_bitIndexUnversioned: JET_GRBIT = 			0x00000200;
+pub const JET_bitIndexSortNullsHigh: JET_GRBIT = 		0x00000400;	// NULL sorts after data for all columns in the index
+pub const JET_bitIndexUnicode: JET_GRBIT = 				0x00000800;	// LCID field of JET_INDEXCREATE actually points to a JET_UNICODEINDEX struct to allow user-defined LCMapString() flags
+pub const JET_bitIndexTuples: JET_GRBIT = 				0x00001000;	// index on substring tuples (text columns only)
+pub const JET_bitIndexTupleLimits: JET_GRBIT = 			0x00002000;	// cbVarSegMac field of JET_INDEXCREATE actually points to a JET_TUPLELIMITS struct to allow custom tuple index limits (implies JET_bitIndexTuples)
+pub const JET_bitIndexCrossProduct: JET_GRBIT = 		0x00004000;	// index over multiple multi-valued columns has full cross product
+pub const JET_bitIndexKeyMost: JET_GRBIT = 				0x00008000;	// custom index key size set instead of default of 255 bytes
+pub const JET_bitIndexDisallowTruncation: JET_GRBIT = 	0x00010000;	// fail update rather than truncate index keys
+pub const JET_bitIndexNestedTable: JET_GRBIT = 			0x00020000;	// index over multiple multi-valued columns but only with values of same itagSequence
+pub const JET_bitIndexDotNetGuid: JET_GRBIT = 			0x00040000;  // index over GUID column according to .Net GUID sort order
+pub const JET_bitIndexImmutableStructure: JET_GRBIT = 	0x00080000;	// Do not write to the input structures during a JetCreateIndexN call.
+
+/* Flags for index key definition */
+pub const JET_bitKeyAscending: JET_GRBIT = 				0x00000000;
+pub const JET_bitKeyDescending: JET_GRBIT = 			0x00000001;
+
+/* Flags for JetOpenTable */
+pub const JET_bitTableDenyWrite: JET_GRBIT = 			0x00000001;
+pub const JET_bitTableDenyRead: JET_GRBIT = 			0x00000002;
+pub const JET_bitTableReadOnly: JET_GRBIT = 			0x00000004;
+pub const JET_bitTableUpdatable: JET_GRBIT = 			0x00000008;
+pub const JET_bitTablePermitDDL: JET_GRBIT = 			0x00000010;	/*  override table flagged as FixedDDL (must be used with DenyRead) */
+pub const JET_bitTableNoCache: JET_GRBIT = 				0x00000020;	/*	don't cache the pages for this table */
+pub const JET_bitTablePreread: JET_GRBIT = 				0x00000040;	/*	assume the table is probably not in the buffer cache */
+pub const JET_bitTableOpportuneRead: JET_GRBIT = 		0x00000080;	/*	attempt to opportunely read physically adjacent leaf pages using larger physical IOs */
+pub const JET_bitTableSequential: JET_GRBIT = 			0x00008000;  /*  assume the table will be scanned sequentially */
+
+pub const JET_bitTableClassMask: JET_GRBIT = 		0x000F0000;	/*  table stats class mask  */
+pub const JET_bitTableClassNone: JET_GRBIT = 		0x00000000;  /*  table belongs to no stats class (default)  */
+pub const JET_bitTableClass1: JET_GRBIT = 			0x00010000;  /*  table belongs to stats class 1  */
+pub const JET_bitTableClass2: JET_GRBIT = 			0x00020000;  /*  table belongs to stats class 2  */
+pub const JET_bitTableClass3: JET_GRBIT = 			0x00030000;  /*  table belongs to stats class 3  */
+pub const JET_bitTableClass4: JET_GRBIT = 			0x00040000;  /*  table belongs to stats class 4  */
+pub const JET_bitTableClass5: JET_GRBIT = 			0x00050000;  /*  table belongs to stats class 5  */
+pub const JET_bitTableClass6: JET_GRBIT = 			0x00060000;  /*  table belongs to stats class 6  */
+pub const JET_bitTableClass7: JET_GRBIT = 			0x00070000;  /*  table belongs to stats class 7  */
+pub const JET_bitTableClass8: JET_GRBIT = 			0x00080000;  /*  table belongs to stats class 8  */
+pub const JET_bitTableClass9: JET_GRBIT = 			0x00090000;  /*  table belongs to stats class 9  */
+pub const JET_bitTableClass10: JET_GRBIT = 			0x000A0000;  /*  table belongs to stats class 10  */
+pub const JET_bitTableClass11: JET_GRBIT = 			0x000B0000;  /*  table belongs to stats class 11  */
+pub const JET_bitTableClass12: JET_GRBIT = 			0x000C0000;  /*  table belongs to stats class 12  */
+pub const JET_bitTableClass13: JET_GRBIT = 			0x000D0000;  /*  table belongs to stats class 13  */
+pub const JET_bitTableClass14: JET_GRBIT = 			0x000E0000;  /*  table belongs to stats class 14  */
+pub const JET_bitTableClass15: JET_GRBIT = 			0x000F0000;  /*  table belongs to stats class 15  */
+
+pub const JET_bitLSReset: JET_GRBIT = 				0x00000001;	/*	reset LS value */
+pub const JET_bitLSCursor: JET_GRBIT = 				0x00000002;	/*	set/retrieve LS of table cursor */
+pub const JET_bitLSTable: JET_GRBIT = 				0x00000004;	/*	set/retrieve LS of table */
+
+/* Flags for JetSetTableSequential and JetPrereadIndexRanges */
+pub const JET_bitPrereadForward: JET_GRBIT = 		0x00000001;	/*	Hint that the sequential traversal will be in the forward direction */
+pub const JET_bitPrereadBackward: JET_GRBIT = 		0x00000002;	/*	Hint that the sequential traversal will be in the backward direction */
+pub const JET_bitPrereadFirstPage: JET_GRBIT = 		0x00000004;	/*	Only first page of long values should be preread */
+pub const JET_bitPrereadNormalizedKey: JET_GRBIT = 	0x00000008;	/*	Normalized key/bookmark provided instead of column value */
+
+/* Flags for JetOpenTempTable */
+pub const JET_bitTTIndexed: JET_GRBIT = 			0x00000001;	/* Allow seek */
+pub const JET_bitTTUnique: JET_GRBIT =  			0x00000002;	/* Remove duplicates */
+pub const JET_bitTTUpdatable: JET_GRBIT = 			0x00000004;	/* Allow updates */
+pub const JET_bitTTScrollable: JET_GRBIT = 			0x00000008;	/* Allow backwards scrolling */
+pub const JET_bitTTSortNullsHigh: JET_GRBIT = 		0x00000010;	/* NULL sorts after data for all columns in the index */
+pub const JET_bitTTForceMaterialization: JET_GRBIT = 		0x00000020;						/* Forces temp. table to be materialized into a btree (allows for duplicate detection) */
+pub const JET_bitTTErrorOnDuplicateInsertion: JET_GRBIT = 	JET_bitTTForceMaterialization;	/* Error always returned when duplicate is inserted (instead of dupe being silently removed) */
+pub const JET_bitTTForwardOnly: JET_GRBIT = 		0x00000040;	/* Prevents temp. table from being materialized into a btree (and enables duplicate keys) */
+pub const JET_bitTTIntrinsicLVsOnly: JET_GRBIT = 	0x00000080;	//	permit only intrinsic LV's (so materialisation is not required simply because a TT has an LV column)
+pub const JET_bitTTDotNetGuid: JET_GRBIT = 			0x00000100;	//	sort all JET_coltypGUID columns according to .Net Guid sort order
+
+/* Flags for JetSetColumn */
+pub const JET_bitSetAppendLV: JET_GRBIT = 					0x00000001;
+pub const JET_bitSetOverwriteLV: JET_GRBIT = 				0x00000004; /* overwrite JET_coltypLong* byte range */
+pub const JET_bitSetSizeLV: JET_GRBIT = 					0x00000008; /* set JET_coltypLong* size */
+pub const JET_bitSetZeroLength: JET_GRBIT = 				0x00000020;
+pub const JET_bitSetSeparateLV: JET_GRBIT =  				0x00000040; /* force LV separation */
+pub const JET_bitSetUniqueMultiValues: JET_GRBIT = 			0x00000080; /* prevent duplicate multi-values */
+pub const JET_bitSetUniqueNormalizedMultiValues: JET_GRBIT = 	0x00000100; /* prevent duplicate multi-values, normalizing all data before performing comparisons */
+pub const JET_bitSetRevertToDefaultValue: JET_GRBIT = 		0x00000200; /* if setting last tagged instance to NULL, revert to default value instead if one exists */
+pub const JET_bitSetIntrinsicLV: JET_GRBIT = 				0x00000400; /* store whole LV in record without bursting or return an error */
+pub const JET_bitSetCompressed: JET_GRBIT = 				0x00020000; /* attempt compression when storing the data */
+pub const JET_bitSetUncompressed: JET_GRBIT = 				0x00010000; /* don't attempt compression when storing the data */
+
+/*	Space Hint Flags / JET_SPACEHINTS	*/
+//	Generic
+pub const JET_bitSpaceHintsUtilizeParentSpace: JET_GRBIT = 			0x00000001;	//	This changes the internal allocation policy to get space heirarchically from a B-Tree's immediate parent.
+//	Create
+pub const JET_bitCreateHintAppendSequential: JET_GRBIT = 			0x00000002;	//	This bit will enable Append split behavior to grow according to the growth dynamics of the table (set by cbMinExtent, ulGrowth, cbMaxExtent).
+pub const JET_bitCreateHintHotpointSequential: JET_GRBIT = 			0x00000004;	//	This bit will enable Hotpoint split behavior to grow according to the growth dynamics of the table (set by cbMinExtent, ulGrowth, cbMaxExtent).
+//	Retrieve
+pub const JET_bitRetrieveHintReserve1: JET_GRBIT = 					0x00000008;	//	Reserved and ignored
+pub const JET_bitRetrieveHintTableScanForward: JET_GRBIT = 			0x00000010;	//	By setting this the client indicates that forward sequential scan is the predominant usage pattern of this table.
+pub const JET_bitRetrieveHintTableScanBackward: JET_GRBIT = 		0x00000020;	//	By setting this the client indicates that backwards sequential scan is the predominant usage pattern of this table.
+pub const JET_bitRetrieveHintReserve2: JET_GRBIT = 					0x00000040;	//	Reserved and ignored
+pub const JET_bitRetrieveHintReserve3: JET_GRBIT = 					0x00000080;	//	Reserved and ignored
+//	Update
+//#define JET_bitUpdateReserved						0x00000000	//	TBD.
+//	Delete / .grbitDelete
+pub const JET_bitDeleteHintTableSequential: JET_GRBIT = 			0x00000100;	//	This means that the application expects this table to be cleaned up in-order sequentially (from lowest key to highest key)
+
 /**********************************************************************/
 /***********************     ERROR CODES     **************************/
 /**********************************************************************/
