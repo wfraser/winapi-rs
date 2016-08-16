@@ -266,7 +266,14 @@ extern "system" {
     // JetGetSecondaryIndexBookmark
     // JetGetSessionParameter
     // JetGetSystemParameter
-    // JetGetTableColumnInfo
+    pub fn JetGetTableColumnInfoW(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        szColumnName: PCWSTR,
+        pvResult: PVOID,
+        cbMax: ULONG,
+        InfoLevel: ULONG,
+    ) -> JET_ERR;
     // JetGetTableIndexInfo
     // JetGetTableInfo
     // JetGetThreadStats
@@ -313,7 +320,7 @@ extern "system" {
         sesid: JET_SESID,
         dbid: JET_DBID,
         szTableName: PCWSTR,
-        pvParameters: PVOID,
+        pvParameters: *const PVOID,
         cbParameters: ULONG,
         grbit: JET_GRBIT,
         ptableid: *mut JET_TABLEID,
@@ -349,7 +356,7 @@ extern "system" {
         sesid: JET_SESID,
         tableid: JET_TABLEID,
         columnid: JET_COLUMNID,
-        pvData: *mut PVOID,
+        pvData: PVOID,
         cbData: ULONG,
         pcbActual: *mut ULONG,
         grbit: JET_GRBIT,

@@ -656,10 +656,10 @@ pub const JET_bitReadLock: JET_GRBIT = 					0x00000001;
 pub const JET_bitWriteLock: JET_GRBIT = 				0x00000002;
 
 /* Constants for JetMove */
-pub const JET_MoveFirst: JET_GRBIT = 					(0x80000000);
-pub const JET_MovePrevious: JET_GRBIT = 				(!1);
-pub const JET_MoveNext: JET_GRBIT = 					(1);
-pub const JET_MoveLast: JET_GRBIT = 					(0x7fffffff);
+pub const JET_MoveFirst: i32 =					(-0x80000000);
+pub const JET_MovePrevious: i32 =				(-1);
+pub const JET_MoveNext: i32 =					(1);
+pub const JET_MoveLast: i32 =					(0x7fffffff);
 
 /* Flags for JetMove */
 pub const JET_bitMoveKeyNE: JET_GRBIT = 				0x00000001;
@@ -871,6 +871,20 @@ pub const JET_bitStopServiceQuiesceCaches: JET_GRBIT = 				0x00000004;	//	Quiesc
 // Warning: This bit can only be used to resume StopServiceBackgroundUserTasks and JET_bitStopServiceQuiesceCaches, if you
 // previously called with JET_bitStopServiceAll, attempting to use JET_bitStopServiceResume will fail.
 pub const JET_bitStopServiceResume: JET_GRBIT = 					0x80000000;	//	Resumes previously issued StopService operations, i.e. "restarts service".  Can be combined with above grbits to Resume specific services, or with JET_bitStopServiceAll to Resume all previously stopped services.
+
+pub const JET_ColInfo: ::ULONG=					0;
+pub const JET_ColInfoList: ::ULONG= 			1;
+pub const JET_ColInfoSysTabCursor: ::ULONG= 	3;
+pub const JET_ColInfoBase: ::ULONG= 			4;
+pub const JET_ColInfoListCompact: ::ULONG= 		5;		//	INTERNAL USE ONLY
+pub const JET_ColInfoByColid: ::ULONG=			6;
+pub const JET_ColInfoListSortColumnid: ::ULONG=	7;		//	OBSOLETE: use grbit instead
+pub const JET_ColInfoBaseByColid: ::ULONG=		8;
+
+		// Grbits for JET_GetColumnInfo and JetGetTableColumnInfo (OR together with the info level)
+pub const JET_ColInfoGrbitNonDerivedColumnsOnly: ::ULONG=	0x80000000;	//	for lists, only return non-derived columns (if the table is derived from a template)
+pub const JET_ColInfoGrbitMinimalInfo: ::ULONG=				0x40000000;	//	for lists, only return the column name and columnid of each column
+pub const JET_ColInfoGrbitSortByColumnid: ::ULONG=			0x20000000;	//	for lists, sort returned column list by columnid (default is to sort list by column name)
 
 /**********************************************************************/
 /***********************     ERROR CODES     **************************/
