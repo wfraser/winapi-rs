@@ -232,7 +232,7 @@ extern "system" {
         dbid: JET_DBID,
         szTableName: PCWSTR,
         pwColumnNameOrId: PCWSTR,
-        pvResult: *mut PVOID,
+        pvResult: PVOID,
         cbMax: ULONG,
         InfoLevel: ULONG,
     ) -> JET_ERR;
@@ -241,7 +241,7 @@ extern "system" {
     // JetGetDatabaseFileInfo
     // JetGetDetabaseInfo
     pub fn JetGetErrorInfoW(
-        pvContext: *const PVOID,
+        pvContext: PCVOID,
         pvResult: PVOID,
         cbMax: ULONG,
         InfoLevel: ULONG,
@@ -320,7 +320,7 @@ extern "system" {
         sesid: JET_SESID,
         dbid: JET_DBID,
         szTableName: PCWSTR,
-        pvParameters: *const PVOID,
+        pvParameters: PCVOID,
         cbParameters: ULONG,
         grbit: JET_GRBIT,
         ptableid: *mut JET_TABLEID,
@@ -371,7 +371,7 @@ extern "system" {
     pub fn JetRetrieveKey(
         sesid: JET_SESID,
         tableid: JET_TABLEID,
-        pvData: *mut PVOID,
+        pvData: PVOID,
         cbMax: ULONG,
         pcbActual: *mut ULONG,
         grbit: JET_GRBIT,
@@ -389,7 +389,7 @@ extern "system" {
         sesid: JET_SESID,
         tableid: JET_TABLEID,
         columnid: JET_COLUMNID,
-        pvData: *mut PVOID,
+        pvData: PCVOID,
         cbData: ULONG,
         grbit: JET_GRBIT,
         psetinfo: *const JET_SETINFO,
@@ -399,7 +399,7 @@ extern "system" {
         dbid: JET_DBID,
         szTableName: PCWSTR,
         szColumnName: PCWSTR,
-        pvData: *const PVOID,
+        pvData: PCVOID,
         cbData: ULONG,
         grbit: JET_GRBIT,
     ) -> JET_ERR;
@@ -466,7 +466,7 @@ extern "system" {
     pub fn JetSetSessionParameter(
         sesid: JET_SESID,
         sesparamid: ULONG,
-        pvParam: *const PVOID,
+        pvParam: PCVOID,
         cbParam: ULONG,
     ) -> JET_ERR;
     pub fn JetSetSystemParameterW(
@@ -513,14 +513,14 @@ extern "system" {
     pub fn JetUpdate(
         sesid: JET_SESID,
         tableid: JET_TABLEID,
-        pvBookmark: *mut PVOID,
+        pvBookmark: PVOID,
         cbBookmark: ULONG,
         pcbActual: *mut ULONG,
     ) -> JET_ERR;
     pub fn JetUpdate2(
         sesid: JET_SESID,
         tableid: JET_TABLEID,
-        pvBookmark: *mut PVOID,
+        pvBookmark: PVOID,
         cbBookmark: ULONG,
         pcbActual: *mut ULONG,
         grbit: JET_GRBIT,
