@@ -25,8 +25,26 @@ pub type JET_SESID = JET_API_PTR;
 pub type JET_SNP = ::ULONG;
 pub type JET_SNT = ::ULONG;
 pub type JET_TABLEID = JET_API_PTR;
+pub type JET_CALLBACK = Option<unsafe extern "system" fn(
+    sesid: JET_SESID,
+    dbid: JET_DBID,
+    tableid: JET_TABLEID,
+    cbtyp: JET_CBTYP,
+    pvArg1: ::PVOID,
+    pvArg2: ::PVOID,
+    pvContext: ::PCVOID,
+    ulUnused: JET_API_PTR,
+) -> JET_ERR>;
+pub type JET_PFNREALLOC = Option<unsafe extern "system" fn(
+    pvContext: ::PCVOID,
+    pv: ::PCVOID,
+    cb: ::ULONG,
+) -> JET_ERR>;
 pub type JET_PFNSTATUS = Option<unsafe extern "system" fn(
-    JET_SESID, JET_SNP, JET_SNT, ::PVOID,
+    sesid: JET_SESID,
+    snp: JET_SNP,
+    snt: JET_SNT,
+    pv: ::PVOID,
 ) -> JET_ERR>;
 STRUCT!{struct JET_COLUMNCREATE_W {
     cbStruct: ::ULONG,
@@ -60,6 +78,39 @@ STRUCT!{struct JET_CONDITIONALCOLUMN_W {
     cbStruct: ::ULONG,
     szColumnName: ::PWSTR,
     grbit: JET_GRBIT,
+}}
+#[cfg(target_pointer_width = "32")]
+STRUCT!{struct JET_ENUMCOLUMN {
+    columnid: JET_COLUMNID,
+    err: JET_ERR,
+    u: [u8; 8],
+}}
+#[cfg(target_pointer_width = "64")]
+STRUCT!{struct JET_ENUMCOLUMN {
+    columnid: JET_COLUMNID,
+    err: JET_ERR,
+    u: [u8; 12],
+}}
+STRUCT!{struct JET_ENUMCOLUMN_internal1 {
+    cEnumColumnValue: ::ULONG,
+    rgEnumColumnValue: *const JET_ENUMCOLUMNVALUE,
+}}
+STRUCT!{struct JET_ENUMCOLUMN_internal2 {
+    cbData: ::ULONG,
+    pvData: ::PVOID,
+}}
+UNION!(JET_ENUMCOLUMN, u, internal1, internal1_mut, JET_ENUMCOLUMN_internal1);
+UNION!(JET_ENUMCOLUMN, u, internal2, internal2_mut, JET_ENUMCOLUMN_internal2);
+STRUCT!{struct JET_ENUMCOLUMNID {
+    columnid: JET_COLUMNID,
+    ctagSequence: ::ULONG,
+    rgtagSequence: *const ::ULONG,
+}}
+STRUCT!{struct JET_ENUMCOLUMNVALUE {
+    itagSequcne: ::ULONG,
+    err: JET_ERR,
+    cbData: ::ULONG,
+    pvData: ::PVOID,
 }}
 STRUCT!{nodebug struct JET_ERRINFOBASIC_W{
     cbStruct: ::ULONG,
@@ -194,10 +245,24 @@ UNION!(JET_INDEXCREATE3_W, u1, lcid, lcid_mut, ::ULONG);
 UNION!(JET_INDEXCREATE3_W, u1, pidxunicode, pidxunicode_mut, *mut JET_UNICODEINDEX);
 UNION!(JET_INDEXCREATE3_W, u2, cbVarSegMac, cbVarSegMac_mut, ::ULONG);
 UNION!(JET_INDEXCREATE3_W, u2, ptuplelimits, ptuplelimits_mut, *mut JET_TUPLELIMITS);
+STRUCT!{struct JET_INSTANCE_INFO_W {
+    hInstanceId: JET_INSTANCE,
+    szInstanceName: ::PCWSTR,
+    cDatabases: JET_API_PTR,
+    szDatabaseFileName: ::PCWSTR,
+    szDatabaseDisplayName: ::PCWSTR,
+    szDatabaseSLVFileName_Obsolete: ::PCWSTR,
+}}
 STRUCT!{#[repr(packed)] struct JET_LGPOS {
     ib: ::USHORT,
     isec: ::USHORT,
     lGeneration: ::LONG,
+}}
+STRUCT!{struct JET_LOGINFO_W {
+    cbSize: ::ULONG,
+    ulGenLow: ::ULONG,
+    ulGenHigh: ::ULONG,
+    szBaseName: [::WCHAR; JET_BASE_NAME_LENGTH + 1],
 }}
 STRUCT!{#[repr(packed)] struct JET_LOGTIME {
     bSeconds: u8,
@@ -261,6 +326,12 @@ STRUCT!{struct JET_SETINFO {
     ibLongValue: ::ULONG,
     itagSequence: ::ULONG,
 }}
+STRUCT!{struct JET_SETSYSPARAM_W {
+    paramid: ::ULONG,
+    lParam: JET_API_PTR,
+    sz: ::PCWSTR,
+    err: JET_ERR,
+}}
 STRUCT!{struct JET_SIGNATURE {
     ulRandom: ::ULONG,
     logtimeCreate: JET_LOGTIME,
@@ -286,6 +357,22 @@ STRUCT!{struct JET_TABLECREATE_W {
     cColumns: ::ULONG,
     rcindexcreate: *const JET_INDEXCREATE_W,
     cIndexes: ::ULONG,
+    grbit: JET_GRBIT,
+    tableid: JET_TABLEID,
+    cCreated: ::ULONG,
+}}
+STRUCT!{struct JET_TABLECREATE2_W {
+    cbStruct: ::ULONG,
+    szTableName: ::PWSTR,
+    szTemplateTableName: ::PWSTR,
+    ulPages: ::ULONG,
+    ulDensity: ::ULONG,
+    rgcolumncreate: *const JET_COLUMNCREATE_W,
+    cColumns: ::ULONG,
+    rgindexcreate: *const JET_INDEXCREATE_W,
+    cIndexes: ::ULONG,
+    szCallback: ::PWSTR,
+    cbtyp: JET_CBTYP,
     grbit: JET_GRBIT,
     tableid: JET_TABLEID,
     cCreated: ::ULONG,
@@ -320,6 +407,7 @@ STRUCT!{struct JET_UNICODEINDEX2 {
     dwMapFlags: ::ULONG,
 }}
 pub const JET_MAX_COMPUTERNAME_LENGTH: usize = 15;
+pub const JET_BASE_NAME_LENGTH: usize = 3;
 pub const JET_ErrorInfoSpecificErr: ::ULONG = 1;
 pub const JET_relopEquals: JET_RELOP = 0;
 pub const JET_relopPrefixEquals: JET_RELOP = 1;

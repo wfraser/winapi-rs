@@ -163,16 +163,48 @@ extern "system" {
         dbid: JET_DBID,
         ptablecreate: *mut JET_TABLECREATE_W,
     ) -> JET_ERR;
-    // JetCreateTableColumnIndex2W
-    // JetCreateTableColumnIndex3W
+    pub fn JetCreateTableColumnIndex2W(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        ptablecreate: *mut JET_TABLECREATE2_W,
+    ) -> JET_ERR;
+    pub fn JetCreateTableColumnIndex3W(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        ptablecreate: *mut JET_TABLECREATE3_W,
+    ) -> JET_ERR;
     pub fn JetCreateTableColumnIndex4W(
         sesid: JET_SESID,
         dbid: JET_DBID,
         ptablecreate: *mut JET_TABLECREATE3_W,
     ) -> JET_ERR;
-    // JetDefragment
-    // JetDefragment2
-    // JetDefragment3
+    pub fn JetDefragmentW(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        szTableName: PCWSTR,
+        pcPasses: *mut ULONG,
+        pcSeconds: *mut ULONG,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
+    pub fn JetDefragment2W(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        szTableName: PCWSTR,
+        pcPasses: *mut ULONG,
+        pcSeconds: *mut ULONG,
+        callback: JET_CALLBACK,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
+    pub fn JetDefragment3W(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        szTableName: PCWSTR,
+        pcPasses: *mut ULONG,
+        pcSeconds: *mut ULONG,
+        callback: JET_CALLBACK,
+        pvContext: PCVOID,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
     pub fn JetDelete(
         sesid: JET_SESID,
         tableid: JET_TABLEID,
@@ -207,26 +239,99 @@ extern "system" {
         szFilename: PCWSTR,
         grbit: JET_GRBIT,
     ) -> JET_ERR;
-    // JetDupCursor
-    // JetDupSession
-    // JetEnableMultiInstance
-    // JetEndExternalBackup
-    // JetEndExternalBackupInstance
-    // JetEndExternalBackupInstance2
+    pub fn JetDupCursor(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        ptableid: *mut JET_TABLEID,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
+    pub fn JetDupSession(
+        sesid: JET_SESID,
+        psesid: *mut JET_SESID,
+    ) -> JET_ERR;
+    pub fn JetEnableMultiInstanceW(
+        psetsysparam: *const JET_SETSYSPARAM_W,
+        csetsysparam: ULONG,
+        pcsetsucceed: *mut ULONG,
+    ) -> JET_ERR;
+    pub fn JetEndExternalBackup() -> JET_ERR;
+    pub fn JetEndExternalBackupInstance(
+        instance: JET_INSTANCE,
+    ) -> JET_ERR;
+    pub fn JetEndExternalBackupInstance2(
+        instance: JET_INSTANCE,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
     pub fn JetEndSession(
         sesid: JET_SESID,
         grbit: JET_GRBIT,
     ) -> JET_ERR;
-    // JetEnumerateColumns
-    // JetEscrowUpdate
-    // JetExternalRestore
-    // JetExternalRestore2
+    pub fn JetEnumerateColumns(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        cEnumColumnId: ULONG,
+        rgEnumColumnId: *const JET_ENUMCOLUMNID,
+        pcEnumColumn: *mut ULONG,
+        prgEnumColumn: *mut *const JET_ENUMCOLUMN,
+        pfnRealloc: JET_PFNREALLOC,
+        pvReallocContext: PCVOID,
+        cbDataMost: ULONG,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
+    pub fn JetEscrowUpdate(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        columnid: JET_COLUMNID,
+        pv: PCVOID,
+        cbMax: ULONG,
+        pvOld: PVOID,
+        cbOldMax: ULONG,
+        pcbOldActual: *mut ULONG,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
+    pub fn JetExternalRestoreW(
+        szCheckpointFilePath: PCWSTR,
+        szLogPath: PCWSTR,
+        rgrstmap: *const JET_RSTMAP_W,
+        crstfilemap: LONG,
+        szBackupLogPath: PCWSTR,
+        genLow: LONG,
+        genHigh: LONG,
+        pfn: JET_PFNSTATUS,
+    ) -> JET_ERR;
+    pub fn JetExternalRestore2W(
+        szCheckpointFilePath: PCWSTR,
+        szLogPath: PCWSTR,
+        rgrstmap: *const JET_RSTMAP_W,
+        crstfilemap: LONG,
+        szBackupLogPath: PCWSTR,
+        pLogInfo: *mut JET_LOGINFO_W,
+        szTargetInstanceName: PCWSTR,
+        szTargetInstanceLogPath: PCWSTR,
+        szTargetInstanceCheckpointPath: PCWSTR,
+        pfn: JET_PFNSTATUS,
+    ) -> JET_ERR;
     pub fn JetFreeBuffer(
         pbBuf: *mut u8,
     ) -> JET_ERR;
-    // JetGetAttachInfo
-    // JetGetAttachInfoInstance
-    // JetGetBookmark
+    pub fn JetGetAttachInfoW(
+        wzzDatabases: PWSTR,
+        cbMax: ULONG,
+        pcbActual: *mut ULONG,
+    ) -> JET_ERR;
+    pub fn JetGetAttachInfoInstanceW(
+        instance: JET_INSTANCE,
+        szzDatabases: PWSTR,
+        cbMax: ULONG,
+        pcbActual: *mut ULONG,
+    ) -> JET_ERR;
+    pub fn JetGetBookmark(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        pvBookmark: PVOID,
+        cbMax: ULONG,
+        pcbActual: *mut ULONG,
+    ) -> JET_ERR;
     pub fn JetGetColumnInfoW(
         sesid: JET_SESID,
         dbid: JET_DBID,
@@ -236,10 +341,32 @@ extern "system" {
         cbMax: ULONG,
         InfoLevel: ULONG,
     ) -> JET_ERR;
-    // JetGetCurrentIndex
-    // JetGetCursorInfo
-    // JetGetDatabaseFileInfo
-    // JetGetDetabaseInfo
+    pub fn JetGetCurrentIndexW(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        szIndexName: PWSTR,
+        cbIndexName: ULONG,
+    ) -> JET_ERR;
+    pub fn JetGetCursorInfo(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        pvResult: PVOID,
+        cbMax: ULONG,
+        InfoLevel: ULONG,
+    ) -> JET_ERR;
+    pub fn JetGetDatabaseFileInfoW(
+        szDatabaseName: PWSTR,
+        pvResult: PVOID,
+        cbMax: ULONG,
+        InfoLevel: ULONG,
+    ) -> JET_ERR;
+    pub fn JetGetDetabaseInfoW(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        pvResult: PVOID,
+        cbMax: ULONG,
+        InfoLevel: ULONG,
+    ) -> JET_ERR;
     pub fn JetGetErrorInfoW(
         pvContext: PCVOID,
         pvResult: PVOID,
@@ -247,9 +374,25 @@ extern "system" {
         InfoLevel: ULONG,
         grbit: JET_GRBIT,
     ) -> JET_ERR;
-    // JetGetIndexInfo
-    // JetGetInstanceInfo
-    // JetGetInstanceMiscInfo
+    pub fn JetGetIndexInfoW(
+        sesid: JET_SESID,
+        dbid: JET_DBID,
+        szTableName: PCWSTR,
+        szIndexName: PCWSTR,
+        pvResult: PVOID,
+        cbResult: ULONG,
+        InfoLevel: ULONG,
+    ) -> JET_ERR;
+    pub fn JetGetInstanceInfoW(
+        pcInstanceInfo: *mut ULONG,
+        paInstanceInfo: *mut *const JET_INSTANCE_INFO_W,
+    ) -> JET_ERR;
+    pub fn JetGetInstanceMiscInfo(
+        instance: JET_INSTANCE,
+        pvResult: PVOID,
+        cbMax: ULONG,
+        InfoLevel: ULONG,
+    ) -> JET_ERR;
     pub fn JetGetLock(
         sesid: JET_SESID,
         tableid: JET_TABLEID,
@@ -300,7 +443,13 @@ extern "system" {
         grbit: JET_GRBIT,
     ) -> JET_ERR;
     // JetIntersectIndexes
-    // JetMakeKey
+    pub fn JetMakeKey(
+        sesid: JET_SESID,
+        tableid: JET_TABLEID,
+        pvData: PCVOID,
+        cbData: ULONG,
+        grbit: JET_GRBIT,
+    ) -> JET_ERR;
     pub fn JetMove(
         sesid: JET_SESID,
         tableid: JET_TABLEID,
